@@ -1,0 +1,13 @@
+
+pubspec.lock
+.dart_tool
+.packages
+.pub/
+build/
+.vscode
+.idea
+doc/api/
+node_modules/
+package-lock.json
+yarn.lock
+functions/build/

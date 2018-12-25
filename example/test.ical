@@ -1,0 +1,93 @@
+BEGIN:VTODO
+DTSTAMP:19980130T134500Z
+SEQUENCE:2
+UID:uid4@example.com
+DUE:19980415T235959
+STATUS:NEEDS-ACTION
+SUMMARY:Submit Income Taxes
+
+    BEGIN:VALARM
+    ACTION:AUDIO
+    TRIGGER:19980414T120000
+    ATTACH;FMTTYPE=audio/basic:http://example.com/pub/audio-
+    files/ssbanner.aud
+    REPEAT:4
+    DURATION:PT1H
+    END:VALARM
+
+END:VTODO
+
+BEGIN:VJOURNAL
+DTSTAMP:19970324T120000Z
+UID:uid5@example.com
+ORGANIZER:MAILTO:jsmith@example.com
+STATUS:DRAFT
+CLASS:PUBLIC
+CATEGORIES:Project Report, XYZ, Weekly Meeting
+DESCRIPTION:Project xyz Review Meeting Minutes\n
+ Agenda\n1. Review of project version 1.0 requirements.\n2.
+ Definition 
+ of project processes.\n3. Review of project schedule.\n
+ Participants: John Smith\, Jane Doe\, Jim Dandy\n-It was
+  decided that the requirements need to be signed off by
+  product marketing.\n-Project processes were accepted.\n
+ -Project schedule needs to account for scheduled holidays
+  and employee vacation time. Check with HR for specific
+  dates.\n-New schedule will be distributed by Friday.\n-
+ Next weeks meeting is cancelled. No meeting until 3/23.
+END:VJOURNAL
+
+BEGIN:VFREEBUSY
+DTSTAMP:20151013T080000Z
+UID:uid6@example.com
+ORGANIZER:MAILTO:jsmith@example.com
+DTSTART:19980313T141711Z
+DTEND:19980410T141711Z
+FREEBUSY:19980314T233000Z/19980315T003000Z
+FREEBUSY:19980316T153000Z/19980316T163000Z
+FREEBUSY:19980318T030000Z/19980318T040000Z
+URL:http://www.example.com/calendar/busytime/jsmith.ifb
+END:VFREEBUSY
+
+BEGIN:VEVENT
+UID:uid1@example.com
+DTSTAMP:19970714T170000Z
+ORGANIZER;CN=John Doe:MAILTO:john.doe@example.com
+DTSTART:19970714T170000Z
+DTEND:19970715T035959Z
+SUMMARY:Bastille Day Party
+GEO:48.85299;2.36885
+END:VEVENT
+
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+
+        BEGIN:VALARM
+       TRIGGER;VALUE=DATE-TIME:19970317T133000Z
+       REPEAT:4
+       DURATION:PT15M
+       ACTION:AUDIO
+       ATTACH;FMTTYPE=audio/basic:ftp://example.com/pub/
+        sounds/bell-01.aud
+       END:VALARM
+
+
+        BEGIN:VALARM
+       TRIGGER:-PT30M
+       REPEAT:2
+       DURATION:PT15M
+       ACTION:DISPLAY
+       DESCRIPTION:Breakfast meeting with executive\n
+        team at 8:30 AM EST.
+       END:VALARM
+
+         BEGIN:VALARM
+       TRIGGER;RELATED=END:-P2D
+       ACTION:EMAIL
+       ATTENDEE:mailto:john_doe@example.com
+       SUMMARY:*** REMINDER: SEND AGENDA FOR WEEKLY STAFF MEETING ***
+       DESCRIPTION:A draft agenda needs to be sent out to the attendees
+         to the weekly managers meeting (MGR-LIST). Attached is a
+         pointer the document template for the agenda file.
+       ATTACH;FMTTYPE=application/msword:http://example.com/
+        templates/agenda.doc
+       END:VALARM
