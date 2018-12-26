@@ -1,111 +1,98 @@
 import 'abstract.dart';
-import 'utils.dart' as utils;
 import 'subcomponents.dart';
-import 'package:nanoid/nanoid.dart';
+import 'utils.dart' as utils;
 
-enum EventStatus { TENTATIVE, CONFIRMED, CANCELLED }
-enum TimeTransparency { OPAQUE, TRANSPARENT }
-
-class Event extends CalendarElement with GeoLocation, Priority, Resources {
+class IEvent extends ICalendarElement with EventToDo {
   String uid;
-  EventStatus status;
-  DateTime end;
+  IEventStatus status;
   DateTime start;
+  DateTime end;
   Duration duration;
-  TimeTransparency transparency;
-  List<String> categories;
-  Class classification;
-  String comment;
+  String summary;
   String description;
+  String comment;
+  List<String> categories;
+  IClass classification;
+  ITimeTransparency transparency;
   String location;
   double lat, lng;
   List<String> resources;
-  String summary;
-  RecurrenceRule rrule;
+  IAlarm alarm;
+  IRecurrenceRule rrule;
+  String url;
+  IOrganizer organizer;
+  int priority;
 
-  Alarm alarm;
-
-  Event({
+  IEvent({
     this.uid,
+    this.status,
     this.start,
     this.end,
     this.duration,
-    this.transparency = TimeTransparency.OPAQUE,
+    this.summary,
+    this.description,
+    this.comment,
     this.categories,
     this.classification,
-    this.comment,
-    this.description,
-    this.summary,
+    this.transparency = ITimeTransparency.OPAQUE,
     this.location,
     this.lat,
     this.lng,
     this.resources,
     this.alarm,
-    this.status,
     this.rrule,
-    String eventUrl,
-  }) {
-    super.url = eventUrl;
-  }
+    this.url,
+    this.organizer,
+    this.priority=0,
+  });
 
   @override
   String serialize() {
+    super.serialize();
     String out = 'BEGIN:VEVENT\n';
-    print(url);
-    if (uid == null) {
-      uid = nanoid(32);
-    }
-    out += 'UID:$uid\n';
+
     out += 'DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}\n';
+
     if ((end == null && duration == null)) {
       out += 'DTSTART;VALUE=DATE:${utils.formatDate(start)}\n';
     } else {
       out += 'DTSTART:${utils.formatDateTime(start)}\n';
     }
 
-    if (end != null) {
-      out += 'DTEND:${utils.formatDateTime(end)}\n';
-    }
-    if (duration != null) {
-      out += 'DURATION:${utils.formatDuration(duration)}\n';
-    }
+    if (end != null) out += 'DTEND:${utils.formatDateTime(end)}\n';
+    if (duration != null) out += 'DURATION:${utils.formatDuration(duration)}\n';
 
     switch (transparency) {
-      case TimeTransparency.TRANSPARENT:
+      case ITimeTransparency.TRANSPARENT:
         out += 'TRANSP:TRANSPARENT\n';
         break;
-      case TimeTransparency.OPAQUE:
+      case ITimeTransparency.OPAQUE:
       default:
         out += 'TRANSP:OPAQUE\n';
         break;
     }
 
     switch (status) {
-      case EventStatus.TENTATIVE:
+      case IEventStatus.TENTATIVE:
         out += 'STATUS:TENTATIVE\n';
         break;
-      case EventStatus.CANCELLED:
+      case IEventStatus.CANCELLED:
         out += 'STATUS:CANCELLED\n';
         break;
-      case EventStatus.CONFIRMED:
+      case IEventStatus.CONFIRMED:
       default:
         out += 'STATUS:CONFIRMED\n';
         break;
     }
 
-    out += serializeCategories();
-    out += serializeClassification();
-    if (comment != null) out += serializeComment();
-    if (description != null) out += serializeDescription();
-    if (summary != null) out += serializeSummary();
-    if (location != null) out += serializeLocation();
-    if (lat != null && lng != null) out += serializeGeo();
-    if (resources != null) out += serializeResources();
-    if (alarm != null) out += alarm.serialize();
-    if (super.url != null) out += serializeUrl();
-    if (rrule != null) out += rrule.serialize();
+    out += super.serialize();
+    out += serializeEventToDo();
 
     out += 'END:VEVENT\n';
     return out;
   }
 }
+
+enum IEventStatus { TENTATIVE, CONFIRMED, CANCELLED }
+
+enum ITimeTransparency { OPAQUE, TRANSPARENT }

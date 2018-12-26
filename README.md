@@ -2,12 +2,13 @@
 
 - [x] Basic Calendar Object
 - [x] Event Element
-- [x] To-Do Element
-- [x] Journal Element
+- [] To-Do Element
+- [] Journal Element
 - [x] Alarm Component
 - [] Free/Busy Times
 - [] Timezones
 - [] Attachements (for Emails, Sound-Alarms, etc.)
-- [] Recurrence of Elements
+- [x] Recurrence of Elements with RRULE
+- [] EXDATE
 - [] STATUS
-- [] ATTENDEE [Link](https://tools.ietf.org/html/rfc5545#section-3.8.4.1)
+- [] ATTENDEE, CONTACT, ORGANIZER [Link](https://tools.ietf.org/html/rfc5545#section-3.8.4.1)

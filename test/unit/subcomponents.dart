@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 main() {
   group('Alarm', () {
     group('Alarm.display', () {
-      Alarm disp = Alarm.display(
+      IAlarm disp = IAlarm.display(
         duration: Duration(minutes: 23),
         description: 'Test',
         repeat: 3,

@@ -1,12 +1,12 @@
 import 'abstract.dart';
 
-enum JournalStatus {
+enum IJournalStatus {
   DRAFT,
   FINAL,
   CANCELLED,
 }
 
-class Journal extends CalendarElement{
+class IJournal extends ICalendarElement{
   @override
   String serialize() {
     // TODO: implement serialize

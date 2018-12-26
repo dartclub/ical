@@ -1,28 +1,28 @@
 import 'abstract.dart';
 import 'utils.dart' as utils;
 
-enum AlarmType { DISPLAY, AUDIO, EMAIL }
+enum IAlarmType { DISPLAY, AUDIO, EMAIL }
 
-class Alarm extends AbstractSerializer {
-  AlarmType type;
+class IAlarm extends AbstractSerializer {
+  IAlarmType type;
   Duration duration;
   int repeat;
   DateTime trigger;
   String description, summary;
 
-  Alarm.display({
+  IAlarm.display({
     this.duration = const Duration(minutes: 15),
     this.repeat = 1,
     this.trigger,
     this.description,
-  }) : type = AlarmType.DISPLAY;
-  Alarm.audio({
+  }) : type = IAlarmType.DISPLAY;
+  IAlarm.audio({
     this.duration = const Duration(minutes: 15),
     this.repeat = 1,
     this.trigger,
-  }) : type = AlarmType.AUDIO;
+  }) : type = IAlarmType.AUDIO;
 
-  // TODO Alarm.email(
+  // TODO IAlarm.email(
   //    {this.duration,
   //    this.repeat,
   //    this.trigger,
@@ -40,14 +40,14 @@ class Alarm extends AbstractSerializer {
   String serialize() {
     String out = 'BEGIN:VALARM\n';
     switch (type) {
-      case AlarmType.AUDIO:
+      case IAlarmType.AUDIO:
         out += 'ACTION:AUDIO\n';
         break;
-      case AlarmType.DISPLAY:
+      case IAlarmType.DISPLAY:
         out += 'ACTION:DISPLAY\n';
         out += _serializeDescription();
         break;
-      case AlarmType.EMAIL:
+      case IAlarmType.EMAIL:
         out += 'ACTION:EMAIL\n';
         out += _serializeDescription();
         out += _serializeSummary();

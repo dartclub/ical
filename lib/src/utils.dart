@@ -1,7 +1,5 @@
 import 'package:intl/intl.dart';
 
-//19980119T070000Z
-//"yyyyMMdd'T'HHmmss'Z'"
 formatDateTime(DateTime dt) => DateFormat("yyyyMMdd'T'HHmmss'Z'").format(dt);
 formatDate(DateTime dt) => DateFormat("yyyyMMdd").format(dt);
 formatDuration(Duration d) {

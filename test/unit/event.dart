@@ -6,16 +6,16 @@ import '../../lib/src/abstract.dart';
 main(){
   group('Event', (){
     test('serialize', (){
-      Event e = Event(
+      IEvent e = IEvent(
         uid: 'lukas@himsel.me',
-        alarm: Alarm.display(description: 'Test test test', trigger: DateTime.now()),
+        alarm: IAlarm.display(description: 'Test test test', trigger: DateTime.now()),
         start: DateTime.now(),
         end: DateTime.now().add(Duration(hours: 3)),
         description: 'Test test test',
         lat: 49.3,
         lng: 13,
         categories: <String>['Test', 'unit', 'bla'],
-        rrule: RecurrenceRule(frequency: RecurrenceFrequency.YEARLY),
+        rrule: IRecurrenceRule(frequency: IRecurrenceFrequency.YEARLY),
       );
       print(e.serialize());
     });

@@ -1,16 +1,18 @@
 import 'utils.dart' as utils;
+import 'subcomponents.dart';
+import 'package:nanoid/nanoid.dart';
 
 abstract class AbstractSerializer {
   String serialize();
 }
 
-enum Class {
+enum IClass {
   PUBLIC,
   PRIVATE,
   CONFIDENTIAL,
 }
 
-enum RecurrenceFrequency {
+enum IRecurrenceFrequency {
   SECONDLY,
   MINUTELY,
   HOURLY,
@@ -20,8 +22,8 @@ enum RecurrenceFrequency {
   YEARLY,
 }
 
-class RecurrenceRule {
-  RecurrenceFrequency frequency;
+class IRecurrenceRule {
+  IRecurrenceFrequency frequency;
   DateTime untilDate;
   int count;
   int interval;
@@ -37,8 +39,8 @@ class RecurrenceRule {
     "FR",
     "SA"
   ];
-  RecurrenceRule({
-    this.frequency = RecurrenceFrequency.DAILY,
+  IRecurrenceRule({
+    this.frequency = IRecurrenceFrequency.DAILY,
     this.untilDate,
     this.count = 0,
     this.interval = 0,
@@ -47,25 +49,25 @@ class RecurrenceRule {
   String serialize() {
     String out = 'RRULE:FREQ=';
     switch (frequency) {
-      case RecurrenceFrequency.SECONDLY:
+      case IRecurrenceFrequency.SECONDLY:
         out += 'SECONDLY';
         break;
-      case RecurrenceFrequency.MINUTELY:
+      case IRecurrenceFrequency.MINUTELY:
         out += 'MINUTELY';
         break;
-      case RecurrenceFrequency.HOURLY:
+      case IRecurrenceFrequency.HOURLY:
         out += 'HOURLY';
         break;
-      case RecurrenceFrequency.WEEKLY:
+      case IRecurrenceFrequency.WEEKLY:
         out += 'WEEKLY';
         break;
-      case RecurrenceFrequency.MONTHLY:
+      case IRecurrenceFrequency.MONTHLY:
         out += 'MONTHLY';
         break;
-      case RecurrenceFrequency.YEARLY:
+      case IRecurrenceFrequency.YEARLY:
         out += 'YEARLY';
         break;
-      case RecurrenceFrequency.DAILY:
+      case IRecurrenceFrequency.DAILY:
       default:
         out += 'DAILY';
         break;
@@ -78,66 +80,94 @@ class RecurrenceRule {
   }
 }
 
-abstract class CalendarElement extends AbstractSerializer {
-  String organizer;
+class IOrganizer {
+  String name;
+  String email;
+  IOrganizer({this.name, this.email});
+  String serializeOrganizer() {
+    String out = 'ORGANIZER';
+    if (name != null) {
+      out += ';CN=$name';
+    }
+    if (email == null) {
+      return '';
+    }
+    return '$out:mailto:$email';
+  }
+}
+
+abstract class ICalendarElement extends AbstractSerializer {
+  IOrganizer organizer;
   String uid;
   String summary;
   String description;
   List<String> categories;
-  Uri _url = null;
-  Class classification;
+  String url;
+  IClass classification;
   String comment;
-  RecurrenceRule rrule;
+  IRecurrenceRule rrule;
 
-  String serializeSummary() => 'SUMMARY:$summary\n';
-  String serializeComment() => 'COMMENT:$comment\n';
-  String serializeUrl() => 'URL:${url}\n';
-  String serializeClassification() {
+  String _serializeClassification() {
     switch (classification) {
-      case Class.PUBLIC:
+      case IClass.PUBLIC:
         return 'CLASS:PUBLIC\n';
-      case Class.PRIVATE:
+      case IClass.PRIVATE:
         return 'CLASS:PRIVATE\n';
-      case Class.CONFIDENTIAL:
+      case IClass.CONFIDENTIAL:
         return 'CLASS:CONFIDENTIAL\n';
       default:
         return '';
     }
   }
 
-  set url(String u) => _url = Uri.tryParse(u);
-  get url => _url.toString();
-  String serializeCategories() =>
-      (categories != null) ? 'CATEGORIES:${categories.join(',')}\n' : '';
-  String serializeDescription() {
+  String _serializeDescription() {
     String out = description.replaceAll('\n', "\\n\n\t");
     return 'DESCRIPTION:${out}\n';
   }
+
+  String serialize() {
+    String out;
+
+    if (uid == null) uid = nanoid(32);
+
+    out = 'UID:$uid\n';
+
+    if (categories != null) out += 'CATEGORIES:${categories.join(',')}\n';
+
+    if (comment != null) out += 'COMMENT:$comment\n';
+    if (summary != null) out += 'SUMMARY:$summary\n';
+    if (url != null) out += 'URL:${url}\n';
+    out += _serializeClassification();
+    if (description != null) out += _serializeDescription();
+    if (rrule != null) out += rrule.serialize();
+
+    return out;
+  }
+  // TODO ATTENDEE
+  // TODO CONTACT
 }
 
 // Component Properties for Event + To-Do
 
-mixin GeoLocation {
+mixin EventToDo {
   String location;
-  String serializeLocation() => 'LOCATION:$location\n';
   double lat;
   double lng;
-  String serializeGeo() => 'GEO:$lat;$lng\n';
-}
-
-mixin Priority {
-  int _priority = 0;
-  set priority(int p) {
-    assert(p >= 1 && p <= 9);
-    _priority = p;
-  }
-
-  get priority => _priority;
-  String serializePriority() => 'PRIORITY:$_priority\n';
-}
-
-abstract class Resources {
+  int priority;
   List<String> resources;
-  String serializeResources() =>
-      (resources != null) ? 'RESOURCES:${resources.join(',')}\n' : '';
+  IAlarm alarm;
+
+  String serializeEventToDo() {
+    String out = '';
+    if (location != null) out += 'LOCATION:$location\n';
+    if (lat != null && lng != null) out += 'GEO:$lat;$lng\n';
+    if (resources != null) out += 'RESOURCES:${resources.join(',')}\n';
+    if (priority != null) {
+      priority = (priority >= 0 && priority <= 9) ? priority : 0;
+      out += 'PRIORITY:${priority}\n';
+    }
+    if (alarm != null) out += alarm.serialize();
+
+    return out;
+  }
 }
