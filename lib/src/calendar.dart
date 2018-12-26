@@ -16,14 +16,16 @@ class ICalendar extends AbstractSerializer {
 
   @override
   String serialize() {
-    String out = 'BEGIN:VCALENDAR\nVERSION:2.0\n';
-    out += 'PRODID://${company}//${product}//${lang}\n';
+    var out = StringBuffer()
+      ..writeln('BEGIN:VCALENDAR')
+      ..writeln('VERSION:2.0')
+      ..writeln('PRODID://${company}//${product}//${lang}');
 
     for (ICalendarElement element in _elements) {
-      out += element.serialize();
+      out.write(element.serialize());
     }
 
-    out += 'END:VCALENDAR';
-    return out;
+    out.writeln('END:VCALENDAR');
+    return out.toString();
   }
 }

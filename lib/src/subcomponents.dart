@@ -31,40 +31,38 @@ class IAlarm extends AbstractSerializer {
   //s    : type = AlarmType.EMAIL;
 
   String _serializeSummary() => 'SUMMARY:$summary\n';
-  String _serializeDescription() {
-    String out = description.replaceAll('\n', "\\n\n\t");
-    return 'DESCRIPTION:${out}\n';
-  }
+  String _serializeDescription() =>
+      'DESCRIPTION:${description.replaceAll('\n', "\\n\n\t")}\n';
 
   @override
   String serialize() {
-    String out = 'BEGIN:VALARM\n';
+    var out = StringBuffer()..writeln('BEGIN:VALARM');
     switch (type) {
       case IAlarmType.AUDIO:
-        out += 'ACTION:AUDIO\n';
+        out.writeln('ACTION:AUDIO');
         break;
       case IAlarmType.DISPLAY:
-        out += 'ACTION:DISPLAY\n';
-        out += _serializeDescription();
+        out.writeln('ACTION:DISPLAY');
+        out.write(_serializeDescription());
         break;
       case IAlarmType.EMAIL:
-        out += 'ACTION:EMAIL\n';
-        out += _serializeDescription();
-        out += _serializeSummary();
+        out.writeln('ACTION:EMAIL');
+        out.write(_serializeDescription());
+        out.write(_serializeSummary());
 
         // TODO ATTENDEE
         break;
     }
 
     if (repeat > 1) {
-      out += 'REPEAT:$repeat\n';
-      out += 'DURATION:${utils.formatDuration(duration)}\n';
+      out.writeln('REPEAT:$repeat');
+      out.writeln('DURATION:${utils.formatDuration(duration)}');
     }
 
-    assert(trigger != null);
-    out += 'TRIGGER;VALUE=DATE-TIME:${utils.formatDateTime(trigger)}\n';
+    if (trigger != null)
+      out.writeln('TRIGGER;VALUE=DATE-TIME:${utils.formatDateTime(trigger)}');
 
-    out += 'END:VALARM\n';
-    return out;
+    out.writeln('END:VALARM');
+    return out.toString();
   }
 }

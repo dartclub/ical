@@ -1,5 +1,6 @@
 import 'abstract.dart';
 import 'subcomponents.dart';
+import 'utils.dart' as utils;
 
 enum ITodoStatus {
   NEEDS_ACTION,
@@ -9,20 +10,12 @@ enum ITodoStatus {
 }
 
 class ITodo extends ICalendarElement with EventToDo {
-  IOrganizer organizer;
-  String uid;
-  String summary;
-  String description;
-  List<String> categories;
-  String url;
-  IClass classification;
-  String comment;
-  IRecurrenceRule rrule;
   ITodoStatus status;
   DateTime completed;
   DateTime due;
   DateTime start;
   Duration duration;
+
   String location;
   double lat;
   double lng;
@@ -35,39 +28,78 @@ class ITodo extends ICalendarElement with EventToDo {
     assert(c >= 0 && c <= 100);
     _complete = c;
   }
+
   get complete => _complete;
 
   ITodo({
-    this.uid,
+    IOrganizer organizer,
+    String uid,
     this.status,
     this.start,
     this.due,
     this.duration,
-    this.summary,
-    this.description,
-    this.comment,
-    this.categories,
-    this.classification,
     this.location,
     this.lat,
     this.lng,
     this.resources,
     this.alarm,
-    this.rrule,
-    this.url,
-    this.organizer,
-    int percentComplete=0,
-    this.priority=0,
-  }){complete = percentComplete;}
+    int percentComplete = 0,
+    this.priority = 0,
+    String summary,
+    String description,
+    List<String> categories,
+    String url,
+    IClass classification,
+    String comment,
+    IRecurrenceRule rrule,
+  }) : super(
+          organizer: organizer,
+          uid: uid,
+          summary: summary,
+          description: description,
+          categories: categories,
+          url: url,
+          classification: classification,
+          comment: comment,
+          rrule: rrule,
+        ) {
+    complete = percentComplete;
+  }
 
   @override
   String serialize() {
-    String out = 'BEGIN:VTODO\n';
+    var out = StringBuffer()
+      ..writeln('BEGIN:VTODO')
+      ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}')
+      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
 
-    if(complete!=null) out += 'PERCENT-COMPLETE:$_complete\n';
+    if (due != null) out.writeln('DUE;VALUE=DATE:${utils.formatDate(due)}');
+    if (duration != null)
+      out.writeln('DURATION:${utils.formatDuration(duration)}');
 
-    out += super.serialize();
-    out += serializeEventToDo();
-    return '$out\nEND:VTODO\n';
+    switch (status) {
+      case ITodoStatus.CANCELLED:
+        out.writeln('STATUS:CANCELLED');
+        break;
+      case ITodoStatus.COMPLETED:
+        out.writeln('STATUS:COMPLETED');
+        break;
+      case ITodoStatus.IN_PROCESS:
+        out.writeln('STATUS:IN-PROCESS');
+        break;
+      case ITodoStatus.NEEDS_ACTION:
+        out.writeln('STATUS:NEEDS-ACTION');
+        break;
+      default:
+        out.writeln('STATUS:NEEDS-ACTION');
+        break;
+    }
+
+    if (complete != null) out.writeln('PERCENT-COMPLETE:$_complete');
+
+    out.write(super.serialize());
+    out.write(serializeEventToDo());
+    out.writeln('END:VTODO');
+    return out.toString();
   }
 }

@@ -47,36 +47,38 @@ class IRecurrenceRule {
     this.weekday = 0,
   });
   String serialize() {
-    String out = 'RRULE:FREQ=';
+    var out = StringBuffer()..write('RRULE:FREQ=');
     switch (frequency) {
       case IRecurrenceFrequency.SECONDLY:
-        out += 'SECONDLY';
+        out.write('SECONDLY');
         break;
       case IRecurrenceFrequency.MINUTELY:
-        out += 'MINUTELY';
+        out.write('MINUTELY');
         break;
       case IRecurrenceFrequency.HOURLY:
-        out += 'HOURLY';
+        out.write('HOURLY');
         break;
       case IRecurrenceFrequency.WEEKLY:
-        out += 'WEEKLY';
+        out.write('WEEKLY');
         break;
       case IRecurrenceFrequency.MONTHLY:
-        out += 'MONTHLY';
+        out.write('MONTHLY');
         break;
       case IRecurrenceFrequency.YEARLY:
-        out += 'YEARLY';
+        out.write('YEARLY');
         break;
       case IRecurrenceFrequency.DAILY:
       default:
-        out += 'DAILY';
+        out.write('DAILY');
         break;
     }
-    if (untilDate != null) out += ';UNTIL=${utils.formatDateTime(untilDate)}';
-    if (count > 0) out += ';COUNT=$count';
-    if (interval > 0) out += ';INTERVAL=$interval';
-    if (weekday > 0 && weekday < 8) out += ';WKST=${weekdays[weekday - 1]}';
-    return '$out\n';
+    if (untilDate != null)
+      out.write(';UNTIL=${utils.formatDateTime(untilDate)}');
+    if (count > 0) out.write('COUNT=$count');
+    if (interval > 0) out.write(';INTERVAL=$interval');
+    if (weekday > 0 && weekday < 8) out.write(';WKST=${weekdays[weekday - 1]}');
+    out.writeln('');
+    return out.toString();
   }
 }
 
@@ -85,14 +87,15 @@ class IOrganizer {
   String email;
   IOrganizer({this.name, this.email});
   String serializeOrganizer() {
-    String out = 'ORGANIZER';
+    var out = StringBuffer()..write('ORGANIZER');
     if (name != null) {
-      out += ';CN=$name';
+      out.write(';CN=$name');
     }
     if (email == null) {
       return '';
     }
-    return '$out:mailto:$email';
+    out.writeln(':mailto:$email');
+    return out.toString();
   }
 }
 
@@ -107,6 +110,18 @@ abstract class ICalendarElement extends AbstractSerializer {
   String comment;
   IRecurrenceRule rrule;
 
+  ICalendarElement({
+    this.organizer,
+    this.uid,
+    this.summary,
+    this.description,
+    this.categories,
+    this.url,
+    this.classification,
+    this.comment,
+    this.rrule,
+  });
+
   String _serializeClassification() {
     switch (classification) {
       case IClass.PUBLIC:
@@ -120,28 +135,26 @@ abstract class ICalendarElement extends AbstractSerializer {
     }
   }
 
-  String _serializeDescription() {
-    String out = description.replaceAll('\n', "\\n\n\t");
-    return 'DESCRIPTION:${out}\n';
-  }
+  String _serializeDescription() =>
+      'DESCRIPTION:${description.replaceAll('\n', "\\n\n\t")}\n';
 
   String serialize() {
-    String out;
+    var out = StringBuffer();
 
     if (uid == null) uid = nanoid(32);
 
-    out = 'UID:$uid\n';
+    out.writeln('UID:$uid');
 
-    if (categories != null) out += 'CATEGORIES:${categories.join(',')}\n';
+    if (categories != null) out.writeln('CATEGORIES:${categories.join(',')}');
 
-    if (comment != null) out += 'COMMENT:$comment\n';
-    if (summary != null) out += 'SUMMARY:$summary\n';
-    if (url != null) out += 'URL:${url}\n';
-    out += _serializeClassification();
-    if (description != null) out += _serializeDescription();
-    if (rrule != null) out += rrule.serialize();
+    if (comment != null) out.writeln('COMMENT:$comment');
+    if (summary != null) out.writeln('SUMMARY:$summary');
+    if (url != null) out.writeln('URL:${url}');
+    out.write(_serializeClassification());
+    if (description != null) out.write(_serializeDescription());
+    if (rrule != null) out.write(rrule.serialize());
 
-    return out;
+    return out.toString();
   }
   // TODO ATTENDEE
   // TODO CONTACT
@@ -158,16 +171,16 @@ mixin EventToDo {
   IAlarm alarm;
 
   String serializeEventToDo() {
-    String out = '';
-    if (location != null) out += 'LOCATION:$location\n';
-    if (lat != null && lng != null) out += 'GEO:$lat;$lng\n';
-    if (resources != null) out += 'RESOURCES:${resources.join(',')}\n';
+    var out = StringBuffer();
+    if (location != null) out.writeln('LOCATION:$location');
+    if (lat != null && lng != null) out.writeln('GEO:$lat;$lng');
+    if (resources != null) out.writeln('RESOURCES:${resources.join(',')}');
     if (priority != null) {
       priority = (priority >= 0 && priority <= 9) ? priority : 0;
-      out += 'PRIORITY:${priority}\n';
+      out.writeln('PRIORITY:${priority}');
     }
-    if (alarm != null) out += alarm.serialize();
+    if (alarm != null) out.write(alarm.serialize());
 
-    return out;
+    return out.toString();
   }
 }

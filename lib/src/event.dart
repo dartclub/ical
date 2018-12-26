@@ -3,93 +3,97 @@ import 'subcomponents.dart';
 import 'utils.dart' as utils;
 
 class IEvent extends ICalendarElement with EventToDo {
-  String uid;
   IEventStatus status;
   DateTime start;
   DateTime end;
   Duration duration;
-  String summary;
-  String description;
-  String comment;
-  List<String> categories;
-  IClass classification;
   ITimeTransparency transparency;
+
   String location;
   double lat, lng;
   List<String> resources;
   IAlarm alarm;
-  IRecurrenceRule rrule;
-  String url;
   IOrganizer organizer;
   int priority;
 
   IEvent({
-    this.uid,
+    IOrganizer organizer,
+    String uid,
     this.status,
     this.start,
     this.end,
     this.duration,
-    this.summary,
-    this.description,
-    this.comment,
-    this.categories,
-    this.classification,
+    String summary,
+    String description,
+    List<String> categories,
+    String url,
+    IClass classification,
+    String comment,
+    IRecurrenceRule rrule,
     this.transparency = ITimeTransparency.OPAQUE,
     this.location,
     this.lat,
     this.lng,
     this.resources,
     this.alarm,
-    this.rrule,
-    this.url,
-    this.organizer,
-    this.priority=0,
-  });
+    this.priority = 0,
+  }) : super(
+          organizer: organizer,
+          uid: uid,
+          summary: summary,
+          description: description,
+          categories: categories,
+          url: url,
+          classification: classification,
+          comment: comment,
+          rrule: rrule,
+        );
 
   @override
   String serialize() {
     super.serialize();
-    String out = 'BEGIN:VEVENT\n';
-
-    out += 'DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}\n';
+    var out = StringBuffer()
+      ..writeln('BEGIN:VEVENT')
+      ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}');
 
     if ((end == null && duration == null)) {
-      out += 'DTSTART;VALUE=DATE:${utils.formatDate(start)}\n';
+      out.writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
     } else {
-      out += 'DTSTART:${utils.formatDateTime(start)}\n';
+      out.writeln('DTSTART:${utils.formatDateTime(start)}');
     }
 
-    if (end != null) out += 'DTEND:${utils.formatDateTime(end)}\n';
-    if (duration != null) out += 'DURATION:${utils.formatDuration(duration)}\n';
+    if (end != null) out.writeln('DTEND:${utils.formatDateTime(end)}');
+    if (duration != null)
+      out.writeln('DURATION:${utils.formatDuration(duration)}');
 
     switch (transparency) {
       case ITimeTransparency.TRANSPARENT:
-        out += 'TRANSP:TRANSPARENT\n';
+        out.writeln('TRANSP:TRANSPARENT');
         break;
       case ITimeTransparency.OPAQUE:
       default:
-        out += 'TRANSP:OPAQUE\n';
+        out.writeln('TRANSP:OPAQUE');
         break;
     }
 
     switch (status) {
       case IEventStatus.TENTATIVE:
-        out += 'STATUS:TENTATIVE\n';
+        out.writeln('STATUS:TENTATIVE');
         break;
       case IEventStatus.CANCELLED:
-        out += 'STATUS:CANCELLED\n';
+        out.writeln('STATUS:CANCELLED');
         break;
       case IEventStatus.CONFIRMED:
       default:
-        out += 'STATUS:CONFIRMED\n';
+        out.writeln('STATUS:CONFIRMED');
         break;
     }
 
-    out += super.serialize();
-    out += serializeEventToDo();
+    out.write(super.serialize());
+    out.write(serializeEventToDo());
 
-    out += 'END:VEVENT\n';
-    return out;
+    out.writeln('END:VEVENT');
+    return out.toString();
   }
 }
 
