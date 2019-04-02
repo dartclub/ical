@@ -1,25 +1,45 @@
-import 'package:jaguar/jaguar.dart';
 import '../../lib/ical_serializer.dart';
+import 'dart:io';
 
 main() async {
-  final server = Jaguar();
   ICalendar cal = ICalendar();
   cal.addElement(
     IEvent(
-      start: DateTime(2018, 12, 24),
-      url: 'https://de.wikipedia.org/wiki/Weihnachten',
+      uid: 'test@example.com',
+      start: DateTime(2019, 3, 6),
+      url: 'https://pub.dartlang.org/packages/srt_parser',
       status: IEventStatus.CONFIRMED,
-      lat: 31.7053804,
-      lng: 35.1849329,
-      location: 'Bethlehem',
+      location: 'Heilbronn',
       description:
-          'Weihnachten, auch Weihnacht, Christfest oder Heiliger Christ genannt, ist das Fest der Geburt Jesu Christi.\nFesttag ist der 25. Dezember, der Christtag, auch Hochfest der Geburt des Herrn, dessen Feierlichkeiten am Vorabend, dem Heiligen Abend, beginnen.\nEr ist in vielen Staaten ein gesetzlicher Feiertag.',
-      summary: 'Weihnachten',
+          'Arman and Adrian released their SRT-file parser library for Dart',
+      summary: 'SRT-file Parser Release',
       rrule: IRecurrenceRule(frequency: IRecurrenceFrequency.YEARLY),
     ),
   );
-  server.get('/calendar.ics',
-      (Context ctx) => Response(cal.serialize(), mimeType: 'text/calendar'));
-  await server.serve();
+  cal.addElement(
+    IEvent(
+      alarm: IAlarm.audio(
+        duration: Duration(minutes: 3),
+        repeat: 1,
+        trigger: DateTime(2019, 4, 2, 11),
+      ),
+      description: 'Lukas releases his iCal-feed serializer',
+      summary: 'ical_serializer Release',
+      start: DateTime(2019, 4, 2, 11, 15),
+      end: DateTime(2019, 4, 2, 11, 30),
+      uid: 'lukas@himsel.me',
+      organizer: IOrganizer(email: 'lukas@himsel.me', name: 'Lukas Himsel'),
+      lat: 49.6782872,
+      lng: 10.2425528,
+    ),
+  );
+
+  await HttpServer.bind(InternetAddress.loopbackIPv4, 8080)
+    ..listen((HttpRequest request) {
+      request.response
+        ..headers.contentType = ContentType('text', 'calendar')
+        ..write(cal.serialize())
+        ..close();
+    });
   print('server running http://localhost:8080');
 }

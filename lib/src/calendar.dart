@@ -12,6 +12,7 @@ class ICalendar extends AbstractSerializer {
     this.lang = 'EN',
   });
 
+  addAll(List<ICalendarElement> elements) => _elements.addAll(elements);
   addElement(ICalendarElement element) => _elements.add(element);
 
   @override
