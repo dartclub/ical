@@ -1,9 +1,9 @@
-import 'abstract.dart';
-import 'utils.dart' as utils;
+import 'package:ical/src/abstract.dart';
+import 'package:ical/src/utils.dart' as utils;
 
 enum IAlarmType { DISPLAY, AUDIO, EMAIL }
 
-class IAlarm extends AbstractSerializer {
+class IAlarm extends IComponent {
   IAlarmType type;
   Duration duration;
   int repeat;
@@ -22,17 +22,16 @@ class IAlarm extends AbstractSerializer {
     this.trigger,
   }) : type = IAlarmType.AUDIO;
 
-  // TODO IAlarm.email(
-  //    {this.duration,
-  //    this.repeat,
-  //    this.trigger,
-  //    this.description,
-  //    this.summary})
-  //s    : type = AlarmType.EMAIL;
+  IAlarm.email({
+    this.duration,
+    this.repeat,
+    this.trigger,
+    this.description,
+    this.summary,
+  }) : type = IAlarmType.EMAIL;
 
-  String _serializeSummary() => 'SUMMARY:$summary\n';
   String _serializeDescription() =>
-      'DESCRIPTION:${description.replaceAll('\n', "\\n\n\t")}\n';
+      'DESCRIPTION:${description.replaceAll('\n', "\\n\n\t")}';
 
   @override
   String serialize() {
@@ -47,8 +46,8 @@ class IAlarm extends AbstractSerializer {
         break;
       case IAlarmType.EMAIL:
         out.writeln('ACTION:EMAIL');
-        out.write(_serializeDescription());
-        out.write(_serializeSummary());
+        out.writeln(_serializeDescription());
+        out.writeln('SUMMARY:$summary');
 
         // TODO ATTENDEE
         break;

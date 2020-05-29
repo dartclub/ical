@@ -1,6 +1,7 @@
-import 'abstract.dart';
-import 'subcomponents.dart';
-import 'utils.dart' as utils;
+import 'package:ical/serializer.dart';
+import 'package:ical/src/abstract.dart';
+import 'package:ical/src/properties.dart';
+import 'package:ical/src/utils.dart' as utils;
 
 class IEvent extends ICalendarElement with EventToDo {
   IEventStatus status = IEventStatus.CONFIRMED;

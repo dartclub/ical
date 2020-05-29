@@ -1,7 +1,6 @@
+import 'package:ical/src/properties.dart';
 import 'package:test/test.dart';
-import 'package:ical/src/event.dart';
-import 'package:ical/src/subcomponents.dart';
-import 'package:ical/src/abstract.dart';
+import 'package:ical/serializer.dart';
 
 main() {
   group('Event', () {
@@ -53,6 +52,5 @@ main() {
       print(e.serialize());
       print(e2.serialize());
     });
-    // TODO create tests
   });
 }

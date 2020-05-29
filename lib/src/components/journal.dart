@@ -1,5 +1,5 @@
-import 'abstract.dart';
-import 'utils.dart' as utils;
+import 'package:ical/src/properties.dart';
+import 'package:ical/src/utils.dart' as utils;
 
 class IJournalStatus {
   final String _label;

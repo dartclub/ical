@@ -1,4 +1,4 @@
-import 'package:ical/src/subcomponents.dart';
+import 'package:ical/src/components/alarm.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -25,14 +25,5 @@ main() {
         expect(out.length, 7);
       });
     });
-    /* TODO group('Alarm.audio', () {
-      Alarm audio = Alarm.audio(
-        trigger: DateTime.now().add(Duration(hours: 3)),
-        repeat: 5,
-        duration: Duration(minutes: 80),
-      );
-    });
-*/
-    // TODO group('Alarm.email', () {});
   });
 }
