@@ -24,7 +24,7 @@ main() async {
         trigger: DateTime(2019, 4, 2, 11),
       ),
       description: 'Lukas releases his iCal-feed serializer',
-      summary: 'ical_serializer Release',
+      summary: 'ical Release',
       start: DateTime(2019, 4, 2, 11, 15),
       end: DateTime(2019, 4, 2, 11, 30),
       uid: 'lukas@himsel.me',

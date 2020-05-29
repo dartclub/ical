@@ -26,7 +26,8 @@ class ICalendar extends AbstractSerializer {
       ..writeln('PRODID://${company}//${product}//${lang}');
 
     if (refreshInterval != null) {
-      out.writeln('REFRESH-INTERVAL;VALUE=DURATION:${utils.formatDuration(refreshInterval)}');
+      out.writeln(
+          'REFRESH-INTERVAL;VALUE=DURATION:${utils.formatDuration(refreshInterval)}');
     }
 
     for (ICalendarElement element in _elements) {
