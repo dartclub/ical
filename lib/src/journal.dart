@@ -1,10 +1,15 @@
 import 'abstract.dart';
 import 'utils.dart' as utils;
 
-enum IJournalStatus {
-  DRAFT,
-  FINAL,
-  CANCELLED,
+class IJournalStatus {
+  final String _label;
+  @override
+  toString() => _label;
+  const IJournalStatus._(this._label);
+
+  static const DRAFT = IJournalStatus._('DRAFT');
+  static const FINAL = IJournalStatus._('FINAL');
+  static const CANCELLED = IJournalStatus._('CANCELLED');
 }
 
 class IJournal extends ICalendarElement {
@@ -39,22 +44,10 @@ class IJournal extends ICalendarElement {
     var out = StringBuffer()
       ..writeln('BEGIN:VJOURNAL')
       ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}')
-      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
-
-    switch (status) {
-      case IJournalStatus.DRAFT:
-        out.writeln('STATUS:DRAFT');
-        break;
-      case IJournalStatus.CANCELLED:
-        out.writeln('STATUS:CANCELLED');
-        break;
-      case IJournalStatus.FINAL:
-      default:
-        out.writeln('STATUS:FINAL');
-        break;
-    }
-    out.write(super.serialize());
-    out.writeln('END:VJOURNAL');
+      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}')
+      ..writeln('STATUS:$status')
+      ..write(super.serialize())
+      ..writeln('END:VJOURNAL');
     return out.toString();
   }
 }

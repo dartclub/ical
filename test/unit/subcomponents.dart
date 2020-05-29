@@ -1,4 +1,4 @@
-import '../../lib/src/subcomponents.dart';
+import 'package:ical/src/subcomponents.dart';
 import 'package:test/test.dart';
 
 main() {

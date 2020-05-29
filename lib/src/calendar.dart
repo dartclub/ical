@@ -10,9 +10,9 @@ class ICalendar extends AbstractSerializer {
 
   ICalendar({
     this.company = 'dartclub',
-    this.product = 'ical_serializer',
+    this.product = 'ical/serializer',
     this.lang = 'EN',
-    this.refreshInterval = null,
+    this.refreshInterval,
   });
 
   addAll(List<ICalendarElement> elements) => _elements.addAll(elements);

@@ -59,8 +59,9 @@ class IAlarm extends AbstractSerializer {
       out.writeln('DURATION:${utils.formatDuration(duration)}');
     }
 
-    if (trigger != null)
+    if (trigger != null) {
       out.writeln('TRIGGER;VALUE=DATE-TIME:${utils.formatDateTime(trigger)}');
+    }
 
     out.writeln('END:VALARM');
     return out.toString();

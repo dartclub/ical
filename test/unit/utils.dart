@@ -1,4 +1,4 @@
-import '../../lib/src/utils.dart' as utils;
+import 'package:ical/src/utils.dart' as utils;
 import 'package:test/test.dart';
 
 main() {
@@ -6,7 +6,6 @@ main() {
     test('formatDate', () {
       expect(utils.formatDate(DateTime(2000, 2, 1)), '20000201');
       expect(utils.formatDate(DateTime(1948, 12, 30)), '19481230');
-      // TODO failing tests for formatDate
     });
     test('formatDateTime', () {
       expect(utils.formatDateTime(DateTime(2000, 2, 1, 23, 1)),

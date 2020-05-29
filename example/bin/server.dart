@@ -1,4 +1,4 @@
-import '../../lib/ical_serializer.dart';
+import '../../lib/serializer.dart';
 import 'dart:io';
 
 main() async {

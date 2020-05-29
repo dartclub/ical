@@ -3,11 +3,11 @@ import 'subcomponents.dart';
 import 'utils.dart' as utils;
 
 class IEvent extends ICalendarElement with EventToDo {
-  IEventStatus status;
+  IEventStatus status = IEventStatus.CONFIRMED;
   DateTime start;
   DateTime end;
   Duration duration;
-  ITimeTransparency transparency;
+  ITimeTransparency transparency = ITimeTransparency.OPAQUE;
 
   String location;
   double lat, lng;
@@ -30,7 +30,7 @@ class IEvent extends ICalendarElement with EventToDo {
     IClass classification,
     String comment,
     IRecurrenceRule rrule,
-    this.transparency = ITimeTransparency.OPAQUE,
+    this.transparency,
     this.location,
     this.lat,
     this.lng,
@@ -62,41 +62,39 @@ class IEvent extends ICalendarElement with EventToDo {
       out.writeln('DTSTART:${utils.formatDateTime(start)}');
     }
 
-    if (end != null) out.writeln('DTEND:${utils.formatDateTime(end)}');
-    if (duration != null)
+    if (end != null) {
+      out.writeln('DTEND:${utils.formatDateTime(end)}');
+    }
+    if (duration != null) {
       out.writeln('DURATION:${utils.formatDuration(duration)}');
-
-    switch (transparency) {
-      case ITimeTransparency.TRANSPARENT:
-        out.writeln('TRANSP:TRANSPARENT');
-        break;
-      case ITimeTransparency.OPAQUE:
-      default:
-        out.writeln('TRANSP:OPAQUE');
-        break;
     }
 
-    switch (status) {
-      case IEventStatus.TENTATIVE:
-        out.writeln('STATUS:TENTATIVE');
-        break;
-      case IEventStatus.CANCELLED:
-        out.writeln('STATUS:CANCELLED');
-        break;
-      case IEventStatus.CONFIRMED:
-      default:
-        out.writeln('STATUS:CONFIRMED');
-        break;
-    }
-
-    out.write(super.serialize());
-    out.write(serializeEventToDo());
-
-    out.writeln('END:VEVENT');
+    out
+      ..writeln('TRANSP:$transparency')
+      ..writeln('STATUS:$status')
+      ..write(super.serialize())
+      ..write(serializeEventToDo())
+      ..writeln('END:VEVENT');
     return out.toString();
   }
 }
 
-enum IEventStatus { TENTATIVE, CONFIRMED, CANCELLED }
+class IEventStatus {
+  final String _label;
+  @override
+  toString() => _label;
 
-enum ITimeTransparency { OPAQUE, TRANSPARENT }
+  const IEventStatus._(this._label);
+  static const TENTATIVE = IEventStatus._('TENTATIVE');
+  static const CONFIRMED = IEventStatus._('CONFIRMED');
+  static const CANCELLED = IEventStatus._('CANCELLED');
+}
+
+class ITimeTransparency {
+  final String _label;
+  @override
+  toString() => _label;
+  const ITimeTransparency._(this._label);
+  static const OPAQUE = ITimeTransparency._('OPAQUE');
+  static const TRANSPARENT = ITimeTransparency._('TRANSPARENT');
+}

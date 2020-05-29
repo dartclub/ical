@@ -6,24 +6,42 @@ abstract class AbstractSerializer {
   String serialize();
 }
 
-enum IClass {
-  PUBLIC,
-  PRIVATE,
-  CONFIDENTIAL,
+class IClass {
+  final String _label;
+  @override
+  toString() => _label;
+  const IClass._(this._label);
+  static const PUBLIC = IClass._('PUBLIC');
+  static const PRIVATE = IClass._('PRIVATE');
+  static const CONFIDENTIAL = IClass._('CONFIDENTIAL');
 }
 
-enum IRecurrenceFrequency {
-  SECONDLY,
-  MINUTELY,
-  HOURLY,
-  DAILY,
-  WEEKLY,
-  MONTHLY,
-  YEARLY,
+class IRecurrenceFrequency {
+  final String _label;
+  @override
+  toString() => _label;
+  const IRecurrenceFrequency._(this._label);
+  static const SECONDLY = IRecurrenceFrequency._('SECONDLY');
+  static const MINUTELY = IRecurrenceFrequency._('MINUTELY');
+  static const HOURLY = IRecurrenceFrequency._('HOURLY');
+  static const DAILY = IRecurrenceFrequency._('DAILY');
+  static const WEEKLY = IRecurrenceFrequency._('WEEKLY');
+  static const MONTHLY = IRecurrenceFrequency._('MONTHLY');
+  static const YEARLY = IRecurrenceFrequency._('YEARLY');
+  static const BYSECOND = IRecurrenceFrequency._('BYSECOND');
+  static const BYMINUTE = IRecurrenceFrequency._('BYMINUTE');
+  static const BYHOUR = IRecurrenceFrequency._('BYHOUR');
+  static const BYDAY = IRecurrenceFrequency._('BYDAY');
+  static const BYMONTHDAY = IRecurrenceFrequency._('BYMONTHDAY');
+  static const BYYEARDAY = IRecurrenceFrequency._('BYYEARDAY');
+  static const BYWEEKNO = IRecurrenceFrequency._('BYWEEKNO');
+  static const BYMONTH = IRecurrenceFrequency._('BYMONTH');
+  static const BYSETPOS = IRecurrenceFrequency._('BYSETPOS');
+  static const WKST = IRecurrenceFrequency._('WKST');
 }
 
 class IRecurrenceRule {
-  IRecurrenceFrequency frequency;
+  IRecurrenceFrequency frequency = IRecurrenceFrequency.DAILY;
   DateTime untilDate;
   int count;
   int interval;
@@ -40,43 +58,28 @@ class IRecurrenceRule {
     "SA"
   ];
   IRecurrenceRule({
-    this.frequency = IRecurrenceFrequency.DAILY,
+    this.frequency,
     this.untilDate,
     this.count = 0,
     this.interval = 0,
     this.weekday = 0,
   });
   String serialize() {
-    var out = StringBuffer()..write('RRULE:FREQ=');
-    switch (frequency) {
-      case IRecurrenceFrequency.SECONDLY:
-        out.write('SECONDLY');
-        break;
-      case IRecurrenceFrequency.MINUTELY:
-        out.write('MINUTELY');
-        break;
-      case IRecurrenceFrequency.HOURLY:
-        out.write('HOURLY');
-        break;
-      case IRecurrenceFrequency.WEEKLY:
-        out.write('WEEKLY');
-        break;
-      case IRecurrenceFrequency.MONTHLY:
-        out.write('MONTHLY');
-        break;
-      case IRecurrenceFrequency.YEARLY:
-        out.write('YEARLY');
-        break;
-      case IRecurrenceFrequency.DAILY:
-      default:
-        out.write('DAILY');
-        break;
-    }
-    if (untilDate != null)
+    var out = StringBuffer();
+    out..write('RRULE:FREQ=$frequency');
+
+    if (untilDate != null) {
       out.write(';UNTIL=${utils.formatDateTime(untilDate)}');
-    if (count > 0) out.write('COUNT=$count');
-    if (interval > 0) out.write(';INTERVAL=$interval');
-    if (weekday > 0 && weekday < 8) out.write(';WKST=${weekdays[weekday - 1]}');
+    }
+    if (count > 0) {
+      out.write('COUNT=$count');
+    }
+    if (interval > 0) {
+      out.write(';INTERVAL=$interval');
+    }
+    if (weekday > 0 && weekday < 8) {
+      out.write(';WKST=${weekdays[weekday - 1]}');
+    }
     out.writeln('');
     return out.toString();
   }
@@ -106,7 +109,7 @@ abstract class ICalendarElement extends AbstractSerializer {
   String description;
   List<String> categories;
   String url;
-  IClass classification;
+  IClass classification = IClass.PRIVATE;
   String comment;
   IRecurrenceRule rrule;
 
@@ -121,19 +124,6 @@ abstract class ICalendarElement extends AbstractSerializer {
     this.comment,
     this.rrule,
   });
-
-  String _serializeClassification() {
-    switch (classification) {
-      case IClass.PUBLIC:
-        return 'CLASS:PUBLIC\n';
-      case IClass.PRIVATE:
-        return 'CLASS:PRIVATE\n';
-      case IClass.CONFIDENTIAL:
-        return 'CLASS:CONFIDENTIAL\n';
-      default:
-        return '';
-    }
-  }
 
   String _serializeDescription() =>
       'DESCRIPTION:${description.replaceAll('\n', "\\n\n\t")}\n';
@@ -150,7 +140,7 @@ abstract class ICalendarElement extends AbstractSerializer {
     if (comment != null) out.writeln('COMMENT:$comment');
     if (summary != null) out.writeln('SUMMARY:$summary');
     if (url != null) out.writeln('URL:${url}');
-    out.write(_serializeClassification());
+    out.writeln('CLASS:$classification');
     if (description != null) out.write(_serializeDescription());
     if (rrule != null) out.write(rrule.serialize());
 

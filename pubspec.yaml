@@ -1,9 +1,9 @@
-name: ical_serializer
-version: 0.0.3
+name: ical
+version: 0.1.0
 description: >-
   A library to generate/serialize iCalendar files
 author: Lukas Himsel <lukas@himsel.me>
-homepage: https://github.com/dartclub/ical_serializer
+homepage: https://github.com/dartclub/ical
 
 environment:
   sdk: ">=2.0.0 <3.0.0"
@@ -14,3 +14,5 @@ dependencies:
 
 dev_dependencies:
   test: ^1.5.1+1
+  pedantic: ^1.8.0
+

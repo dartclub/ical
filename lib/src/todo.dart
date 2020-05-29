@@ -74,8 +74,9 @@ class ITodo extends ICalendarElement with EventToDo {
       ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
 
     if (due != null) out.writeln('DUE;VALUE=DATE:${utils.formatDate(due)}');
-    if (duration != null)
+    if (duration != null) {
       out.writeln('DURATION:${utils.formatDuration(duration)}');
+    }
 
     switch (status) {
       case ITodoStatus.CANCELLED:

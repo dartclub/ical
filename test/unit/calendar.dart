@@ -1,8 +1,5 @@
-import 'package:ical_serializer/src/calendar.dart';
+import 'package:ical/src/calendar.dart';
 import 'package:test/test.dart';
-import '../../lib/src/event.dart';
-import '../../lib/src/subcomponents.dart';
-import '../../lib/src/abstract.dart';
 
 main() {
   group('Calendar', () {
