@@ -1,0 +1,265 @@
+8.3.3.  Parameters Registry
+
+   The following table has been used to initialize the parameters
+   registry.
+
+          +----------------+---------+--------------------------+
+          | Parameter      | Status  | Reference                |
+          +----------------+---------+--------------------------+
+          | ALTREP         | Current | RFC 5545, Section 3.2.1  |
+          |                |         |                          |
+          | CN             | Current | RFC 5545, Section 3.2.2  |
+          |                |         |                          |
+          | CUTYPE         | Current | RFC 5545, Section 3.2.3  |
+          |                |         |                          |
+          | DELEGATED-FROM | Current | RFC 5545, Section 3.2.4  |
+          |                |         |                          |
+          | DELEGATED-TO   | Current | RFC 5545, Section 3.2.5  |
+          |                |         |                          |
+          | DIR            | Current | RFC 5545, Section 3.2.6  |
+          |                |         |                          |
+          | ENCODING       | Current | RFC 5545, Section 3.2.7  |
+          |                |         |                          |
+          | FMTTYPE        | Current | RFC 5545, Section 3.2.8  |
+          |                |         |                          |
+          | FBTYPE         | Current | RFC 5545, Section 3.2.9  |
+          |                |         |                          |
+          | LANGUAGE       | Current | RFC 5545, Section 3.2.10 |
+          |                |         |                          |
+          | MEMBER         | Current | RFC 5545, Section 3.2.11 |
+          |                |         |                          |
+          | PARTSTAT       | Current | RFC 5545, Section 3.2.12 |
+          |                |         |                          |
+          | RANGE          | Current | RFC 5545, Section 3.2.13 |
+          |                |         |                          |
+          | RELATED        | Current | RFC 5545, Section 3.2.14 |
+          |                |         |                          |
+          | RELTYPE        | Current | RFC 5545, Section 3.2.15 |
+          |                |         |                          |
+          | ROLE           | Current | RFC 5545, Section 3.2.16 |
+          |                |         |                          |
+          | RSVP           | Current | RFC 5545, Section 3.2.17 |
+          |                |         |                          |
+
+
+
+Desruisseaux                Standards Track                   [Page 158]
+ 
+RFC 5545                       iCalendar                  September 2009
+
+
+          | SENT-BY        | Current | RFC 5545, Section 3.2.18 |
+          |                |         |                          |
+          | TZID           | Current | RFC 5545, Section 3.2.19 |
+          |                |         |                          |
+          | VALUE          | Current | RFC 5545, Section 3.2.20 |
+          +----------------+---------+--------------------------+
+
+8.3.4.  Value Data Types Registry
+
+   The following table has been used to initialize the value data types
+   registry.
+
+         +-----------------+---------+--------------------------+
+         | Value Data Type | Status  | Reference                |
+         +-----------------+---------+--------------------------+
+         | BINARY          | Current | RFC 5545, Section 3.3.1  |
+         |                 |         |                          |
+         | BOOLEAN         | Current | RFC 5545, Section 3.3.2  |
+         |                 |         |                          |
+         | CAL-ADDRESS     | Current | RFC 5545, Section 3.3.3  |
+         |                 |         |                          |
+         | DATE            | Current | RFC 5545, Section 3.3.4  |
+         |                 |         |                          |
+         | DATE-TIME       | Current | RFC 5545, Section 3.3.5  |
+         |                 |         |                          |
+         | DURATION        | Current | RFC 5545, Section 3.3.6  |
+         |                 |         |                          |
+         | FLOAT           | Current | RFC 5545, Section 3.3.7  |
+         |                 |         |                          |
+         | INTEGER         | Current | RFC 5545, Section 3.3.8  |
+         |                 |         |                          |
+         | PERIOD          | Current | RFC 5545, Section 3.3.9  |
+         |                 |         |                          |
+         | RECUR           | Current | RFC 5545, Section 3.3.10 |
+         |                 |         |                          |
+         | TEXT            | Current | RFC 5545, Section 3.3.11 |
+         |                 |         |                          |
+         | TIME            | Current | RFC 5545, Section 3.3.12 |
+         |                 |         |                          |
+         | URI             | Current | RFC 5545, Section 3.3.13 |
+         |                 |         |                          |
+         | UTC-OFFSET      | Current | RFC 5545, Section 3.3.14 |
+         +-----------------+---------+--------------------------+
+
+
+
+
+
+
+
+
+Desruisseaux                Standards Track                   [Page 159]
+ 
+RFC 5545                       iCalendar                  September 2009
+
+
+8.3.5.  Calendar User Types Registry
+
+   The following table has been used to initialize the calendar user
+   types registry.
+
+        +--------------------+---------+-------------------------+
+        | Calendar User Type | Status  | Reference               |
+        +--------------------+---------+-------------------------+
+        | INDIVIDUAL         | Current | RFC 5545, Section 3.2.3 |
+        |                    |         |                         |
+        | GROUP              | Current | RFC 5545, Section 3.2.3 |
+        |                    |         |                         |
+        | RESOURCE           | Current | RFC 5545, Section 3.2.3 |
+        |                    |         |                         |
+        | ROOM               | Current | RFC 5545, Section 3.2.3 |
+        |                    |         |                         |
+        | UNKNOWN            | Current | RFC 5545, Section 3.2.3 |
+        +--------------------+---------+-------------------------+
+
+8.3.6.  Free/Busy Time Types Registry
+
+   The following table has been used to initialize the free/busy time
+   types registry.
+
+        +---------------------+---------+-------------------------+
+        | Free/Busy Time Type | Status  | Reference               |
+        +---------------------+---------+-------------------------+
+        | FREE                | Current | RFC 5545, Section 3.2.9 |
+        |                     |         |                         |
+        | BUSY                | Current | RFC 5545, Section 3.2.9 |
+        |                     |         |                         |
+        | BUSY-UNAVAILABLE    | Current | RFC 5545, Section 3.2.9 |
+        |                     |         |                         |
+        | BUSY-TENTATIVE      | Current | RFC 5545, Section 3.2.9 |
+        +---------------------+---------+-------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Desruisseaux                Standards Track                   [Page 160]
+ 
+RFC 5545                       iCalendar                  September 2009
+
+
+8.3.7.  Participation Statuses Registry
+
+   The following table has been used to initialize the participation
+   statuses registry.
+
+        +--------------------+---------+--------------------------+
+        | Participant Status | Status  | Reference                |
+        +--------------------+---------+--------------------------+
+        | NEEDS-ACTION       | Current | RFC 5545, Section 3.2.12 |
+        |                    |         |                          |
+        | ACCEPTED           | Current | RFC 5545, Section 3.2.12 |
+        |                    |         |                          |
+        | DECLINED           | Current | RFC 5545, Section 3.2.12 |
+        |                    |         |                          |
+        | TENTATIVE          | Current | RFC 5545, Section 3.2.12 |
+        |                    |         |                          |
+        | DELEGATED          | Current | RFC 5545, Section 3.2.12 |
+        |                    |         |                          |
+        | COMPLETED          | Current | RFC 5545, Section 3.2.12 |
+        |                    |         |                          |
+        | IN-PROCESS         | Current | RFC 5545, Section 3.2.12 |
+        +--------------------+---------+--------------------------+
+
+8.3.8.  Relationship Types Registry
+
+   The following table has been used to initialize the relationship
+   types registry.
+
+        +-------------------+---------+--------------------------+
+        | Relationship Type | Status  | Reference                |
+        +-------------------+---------+--------------------------+
+        | CHILD             | Current | RFC 5545, Section 3.2.15 |
+        |                   |         |                          |
+        | PARENT            | Current | RFC 5545, Section 3.2.15 |
+        |                   |         |                          |
+        | SIBLING           | Current | RFC 5545, Section 3.2.15 |
+        +-------------------+---------+--------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Desruisseaux                Standards Track                   [Page 161]
+ 
+RFC 5545                       iCalendar                  September 2009
+
+
+8.3.9.  Participation Roles Registry
+
+   The following table has been used to initialize the participation
+   roles registry.
+
+         +-----------------+---------+--------------------------+
+         | Role Type       | Status  | Reference                |
+         +-----------------+---------+--------------------------+
+         | CHAIR           | Current | RFC 5545, Section 3.2.16 |
+         |                 |         |                          |
+         | REQ-PARTICIPANT | Current | RFC 5545, Section 3.2.16 |
+         |                 |         |                          |
+         | OPT-PARTICIPANT | Current | RFC 5545, Section 3.2.16 |
+         |                 |         |                          |
+         | NON-PARTICIPANT | Current | RFC 5545, Section 3.2.16 |
+         +-----------------+---------+--------------------------+
+
+8.3.10.  Actions Registry
+
+   The following table has been used to initialize the actions registry.
+
+          +-----------+------------+----------------------------+
+          | Action    | Status     | Reference                  |
+          +-----------+------------+----------------------------+
+          | AUDIO     | Current    | RFC 5545, Section 3.8.6.1  |
+          |           |            |                            |
+          | DISPLAY   | Current    | RFC 5545, Section 3.8.6.1  |
+          |           |            |                            |
+          | EMAIL     | Current    | RFC 5545, Section 3.8.6.1  |
+          |           |            |                            |
+          | PROCEDURE | Deprecated | [RFC2445], Section 4.8.6.1 |
+          +-----------+------------+----------------------------+
+
+8.3.11.  Classifications Registry
+
+   The following table has been used to initialize the classifications
+   registry.
+
+         +----------------+---------+---------------------------+
+         | Classification | Status  | Reference                 |
+         +----------------+---------+---------------------------+
+         | PUBLIC         | Current | RFC 5545, Section 3.8.1.3 |
+         |                |         |                           |
+         | PRIVATE        | Current | RFC 5545, Section 3.8.1.3 |
+         |                |         |                           |
+         | CONFIDENTIAL   | Current | RFC 5545, Section 3.8.1.3 |
+         +----------------+---------+---------------------------+
