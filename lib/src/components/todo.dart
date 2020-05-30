@@ -9,6 +9,9 @@ enum ITodoStatus {
   IN_PROCESS,
   CANCELLED,
 }
+final List<PropertyFactory> _factories = [
+  // TODO factories
+];
 
 class ITodo extends ICalendarElement with EventToDo {
   ITodoStatus status;

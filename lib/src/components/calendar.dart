@@ -1,6 +1,11 @@
 import 'package:ical/src/abstract.dart';
 import 'package:ical/src/properties.dart';
+import 'package:ical/src/tokenizer.dart';
 import 'package:ical/src/utils.dart' as utils;
+
+final List<PropertyFactory> _factories = [
+  // TODO factories
+];
 
 class ICalendar extends IComponent {
   List<ICalendarElement> _elements = <ICalendarElement>[];
@@ -15,6 +20,8 @@ class ICalendar extends IComponent {
     this.lang = 'EN',
     this.refreshInterval,
   });
+  ICalendar.parseTokens(ITokens tokens)
+      : super.parseTokens(tokens, 'VCALENDAR', _factories);
 
   addAll(List<ICalendarElement> elements) => _elements.addAll(elements);
   addElement(ICalendarElement element) => _elements.add(element);

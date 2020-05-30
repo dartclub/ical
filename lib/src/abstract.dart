@@ -1,38 +1,50 @@
-import 'package:ical/serializer.dart';
+import 'package:ical/src/tokenizer.dart';
 
 abstract class IElement {
   String serialize();
+  IElement();
+  IElement.parseTokens(ITokens tokens);
+  // factory IElement.parse(String content) => IElement.parseTokens(Tokenizer(content).tokenize());
+  // factory IElement.parse(UInt8List content) => IElement.parseTokens(Tokenizer.bytes(content).tokenize());
 }
 
-abstract class IComponent extends IElement {}
+abstract class IComponent extends IElement {
+  IComponent();
+  IComponent.parseTokens(
+      ITokens tokens, String label, List<PropertyFactory> supportedProperties) {
+    var t = tokens.moveNext() &&
+        tokens
+            .cond((t) => t.type == ITokenType.word && t.content == 'BEGIN')
+            .then((t) => t.type == ITokenType.colon)
+            .then((t) => t.type == ITokenType.word && t.content == label)
+            .then((t) => t.type == ITokenType.delimiter)
+            .resolve();
+    if (t) {
+      while (tokens.moveToNextDelimiter()) {
+        if (tokens
+            .cond((t) => t.type == ITokenType.word && t.content == 'END')
+            .then((t) => t.type == ITokenType.colon)
+            .then((t) => t.type == ITokenType.word && t.content == label)
+            .resolve()) {
+          tokens.moveToNextDelimiter();
 
-abstract class IProperty extends IElement {}
-
-abstract class IParameter extends IElement {}
-
-abstract class IDataType extends IElement {}
-
-// Component Properties for Event + To-Do
-
-mixin EventToDo {
-  String location;
-  double lat;
-  double lng;
-  int priority;
-  List<String> resources;
-  IAlarm alarm;
-
-  String serializeEventToDo() {
-    var out = StringBuffer();
-    if (location != null) out.writeln('LOCATION:$location');
-    if (lat != null && lng != null) out.writeln('GEO:$lat;$lng');
-    if (resources != null) out.writeln('RESOURCES:${resources.join(',')}');
-    if (priority != null) {
-      priority = (priority >= 0 && priority <= 9) ? priority : 0;
-      out.writeln('PRIORITY:${priority}');
+          // TODO deserialize/decode Component
+          return;
+        }
+        var prop = supportedProperties
+            .singleWhere((t) => t.label == tokens.current.content);
+        prop.parser(tokens);
+      }
     }
-    if (alarm != null) out.write(alarm.serialize());
-
-    return out.toString();
   }
+  // factory IElement.parse(String content) => IElement.parseTokens(Tokenizer(content).tokenize());
+  // factory IElement.parse(UInt8List content) => IElement.parseTokens(Tokenizer.bytes(content).tokenize());
+}
+
+typedef IElement Parser(ITokens tokens);
+
+class PropertyFactory {
+  final String label;
+  final Parser parser;
+  PropertyFactory(this.label, this.parser);
 }

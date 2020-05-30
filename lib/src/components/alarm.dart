@@ -1,7 +1,12 @@
 import 'package:ical/src/abstract.dart';
+import 'package:ical/src/tokenizer.dart';
 import 'package:ical/src/utils.dart' as utils;
 
 enum IAlarmType { DISPLAY, AUDIO, EMAIL }
+
+final List<PropertyFactory> _factories = [
+  // TODO factories
+];
 
 class IAlarm extends IComponent {
   IAlarmType type;
@@ -21,7 +26,6 @@ class IAlarm extends IComponent {
     this.repeat = 1,
     this.trigger,
   }) : type = IAlarmType.AUDIO;
-
   IAlarm.email({
     this.duration,
     this.repeat,
@@ -29,6 +33,9 @@ class IAlarm extends IComponent {
     this.description,
     this.summary,
   }) : type = IAlarmType.EMAIL;
+
+  IAlarm.parseTokens(ITokens tokens)
+      : super.parseTokens(tokens, 'VALARM', _factories);
 
   String _serializeDescription() =>
       'DESCRIPTION:${description.replaceAll('\n', "\\n\n\t")}';

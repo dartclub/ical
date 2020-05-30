@@ -103,7 +103,7 @@ class IAttendee {
   // TODO implement 
 }
 
-abstract class ICalendarElement extends IComponent {
+abstract class ICalendarElement extends IElement {
   IOrganizer organizer;
   String uid;
   String summary;

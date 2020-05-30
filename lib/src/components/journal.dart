@@ -1,6 +1,8 @@
 import 'package:ical/src/properties.dart';
 import 'package:ical/src/utils.dart' as utils;
 
+import '../abstract.dart';
+
 class IJournalStatus {
   final String _label;
   @override
@@ -11,6 +13,10 @@ class IJournalStatus {
   static const FINAL = IJournalStatus._('FINAL');
   static const CANCELLED = IJournalStatus._('CANCELLED');
 }
+
+final List<PropertyFactory> _factories = [
+  // TODO factories
+];
 
 class IJournal extends ICalendarElement {
   IJournalStatus status;
