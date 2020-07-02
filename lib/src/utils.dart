@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 
-formatDateTime(DateTime dt) => DateFormat("yyyyMMdd'T'HHmmss'Z'").format(dt);
+formatDateTime(DateTime dt) => dt.isUtc
+    ? DateFormat("yyyyMMdd'T'HHmmss'Z'").format(dt)
+    : DateFormat("yyyyMMdd'T'HHmmss").format(dt);
 formatDate(DateTime dt) => DateFormat("yyyyMMdd").format(dt);
 formatDuration(Duration d) {
   String out = (d.isNegative ? '-' : '+') + 'P';
