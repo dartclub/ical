@@ -1,3 +1,5 @@
+import 'package:ical/src/utils.dart';
+
 import 'utils.dart' as utils;
 import 'subcomponents.dart';
 import 'package:nanoid/nanoid.dart';
@@ -92,7 +94,7 @@ class IOrganizer {
   String serializeOrganizer() {
     var out = StringBuffer()..write('ORGANIZER');
     if (name != null) {
-      out.write(';CN=$name');
+      out.write(';CN=${escapeValue(name)}');
     }
     if (email == null) {
       return '';
@@ -125,9 +127,6 @@ abstract class ICalendarElement extends AbstractSerializer {
     this.rrule,
   });
 
-  String _serializeDescription() =>
-      'DESCRIPTION:${description.replaceAll('\n', "\\n\n\t")}\n';
-
   String serialize() {
     var out = StringBuffer();
 
@@ -135,13 +134,17 @@ abstract class ICalendarElement extends AbstractSerializer {
 
     out.writeln('UID:$uid');
 
-    if (categories != null) out.writeln('CATEGORIES:${categories.join(',')}');
+    if (categories != null) {
+      out.writeln('CATEGORIES:${categories.map(escapeValue).join(',')}');
+    }
 
-    if (comment != null) out.writeln('COMMENT:$comment');
-    if (summary != null) out.writeln('SUMMARY:$summary');
+    if (comment != null) out.writeln('COMMENT:${escapeValue(comment)}');
+    if (summary != null) out.writeln('SUMMARY:${escapeValue(summary)}');
     if (url != null) out.writeln('URL:${url}');
     out.writeln('CLASS:$classification');
-    if (description != null) out.write(_serializeDescription());
+    if (description != null) {
+      out.writeln('DESCRIPTION:${escapeValue(description)}');
+    }
     if (rrule != null) out.write(rrule.serialize());
 
     return out.toString();
@@ -162,12 +165,14 @@ mixin EventToDo {
 
   String serializeEventToDo() {
     var out = StringBuffer();
-    if (location != null) out.writeln('LOCATION:$location');
+    if (location != null) out.writeln('LOCATION:${escapeValue(location)}');
     if (lat != null && lng != null) out.writeln('GEO:$lat;$lng');
-    if (resources != null) out.writeln('RESOURCES:${resources.join(',')}');
+    if (resources != null) {
+      out.writeln('RESOURCES:${resources.map(escapeValue).join(',')}');
+    }
     if (priority != null) {
       priority = (priority >= 0 && priority <= 9) ? priority : 0;
-      out.writeln('PRIORITY:${priority}');
+      out.writeln('PRIORITY:$priority');
     }
     if (alarm != null) out.write(alarm.serialize());
 

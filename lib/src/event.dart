@@ -68,9 +68,11 @@ class IEvent extends ICalendarElement with EventToDo {
     if (duration != null) {
       out.writeln('DURATION:${utils.formatDuration(duration)}');
     }
+    if (transparency != null) {
+      out.writeln('TRANSP:$transparency');
+    }
 
     out
-      ..writeln('TRANSP:$transparency')
       ..writeln('STATUS:$status')
       ..write(super.serialize())
       ..write(serializeEventToDo())

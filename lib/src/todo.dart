@@ -2,11 +2,16 @@ import 'abstract.dart';
 import 'subcomponents.dart';
 import 'utils.dart' as utils;
 
-enum ITodoStatus {
-  NEEDS_ACTION,
-  COMPLETED,
-  IN_PROCESS,
-  CANCELLED,
+class ITodoStatus {
+  final String _label;
+  @override
+  toString() => _label;
+
+  const ITodoStatus._(this._label);
+  static const NEEDS_ACTION = ITodoStatus._('NEEDS_ACTION');
+  static const COMPLETED = ITodoStatus._('COMPLETED');
+  static const IN_PROCESS = ITodoStatus._('IN_PROCESS');
+  static const CANCELLED = ITodoStatus._('CANCELLED');
 }
 
 class ITodo extends ICalendarElement with EventToDo {
@@ -34,7 +39,7 @@ class ITodo extends ICalendarElement with EventToDo {
   ITodo({
     IOrganizer organizer,
     String uid,
-    this.status,
+    this.status = ITodoStatus.NEEDS_ACTION,
     this.start,
     this.due,
     this.duration,
@@ -71,29 +76,12 @@ class ITodo extends ICalendarElement with EventToDo {
     var out = StringBuffer()
       ..writeln('BEGIN:VTODO')
       ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}')
-      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
+      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}')
+      ..writeln('STATUS:$status');
 
     if (due != null) out.writeln('DUE;VALUE=DATE:${utils.formatDate(due)}');
     if (duration != null) {
       out.writeln('DURATION:${utils.formatDuration(duration)}');
-    }
-
-    switch (status) {
-      case ITodoStatus.CANCELLED:
-        out.writeln('STATUS:CANCELLED');
-        break;
-      case ITodoStatus.COMPLETED:
-        out.writeln('STATUS:COMPLETED');
-        break;
-      case ITodoStatus.IN_PROCESS:
-        out.writeln('STATUS:IN-PROCESS');
-        break;
-      case ITodoStatus.NEEDS_ACTION:
-        out.writeln('STATUS:NEEDS-ACTION');
-        break;
-      default:
-        out.writeln('STATUS:NEEDS-ACTION');
-        break;
     }
 
     if (complete != null) out.writeln('PERCENT-COMPLETE:$_complete');

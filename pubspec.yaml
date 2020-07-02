@@ -1,5 +1,5 @@
 name: ical
-version: 0.1.1
+version: 0.1.2
 description: >-
   A library to generate/serialize iCalendar files
 author: Lukas Himsel <lukas@himsel.me>

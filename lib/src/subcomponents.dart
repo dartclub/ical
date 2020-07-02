@@ -1,7 +1,18 @@
+import 'package:ical/src/utils.dart';
+
 import 'abstract.dart';
 import 'utils.dart' as utils;
 
-enum IAlarmType { DISPLAY, AUDIO, EMAIL }
+class IAlarmType {
+  final String _label;
+  @override
+  toString() => _label;
+
+  const IAlarmType._(this._label);
+  static const DISPLAY = IAlarmType._('DISPLAY');
+  static const AUDIO = IAlarmType._('AUDIO');
+  static const EMAIL = IAlarmType._('EMAIL');
+}
 
 class IAlarm extends AbstractSerializer {
   IAlarmType type;
@@ -30,25 +41,18 @@ class IAlarm extends AbstractSerializer {
   //    this.summary})
   //s    : type = AlarmType.EMAIL;
 
-  String _serializeSummary() => 'SUMMARY:$summary\n';
-  String _serializeDescription() =>
-      'DESCRIPTION:${description.replaceAll('\n', "\\n\n\t")}\n';
+  String _serializeDescription() => 'DESCRIPTION:${escapeValue(description)}';
 
   @override
   String serialize() {
-    var out = StringBuffer()..writeln('BEGIN:VALARM');
+    var out = StringBuffer()..writeln('BEGIN:VALARM')..writeln('ACTION:$type');
     switch (type) {
-      case IAlarmType.AUDIO:
-        out.writeln('ACTION:AUDIO');
-        break;
       case IAlarmType.DISPLAY:
-        out.writeln('ACTION:DISPLAY');
-        out.write(_serializeDescription());
+        out.writeln(_serializeDescription());
         break;
       case IAlarmType.EMAIL:
-        out.writeln('ACTION:EMAIL');
-        out.write(_serializeDescription());
-        out.write(_serializeSummary());
+        out.writeln(_serializeDescription());
+        out.writeln('SUMMARY:${escapeValue(summary)}');
 
         // TODO ATTENDEE
         break;
