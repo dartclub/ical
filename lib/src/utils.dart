@@ -20,8 +20,8 @@ formatDuration(Duration d) {
 }
 
 String escapeValue(String val) => val
+    .replaceAll('\\', '\\\\')
     .replaceAll('\n', '\\n')
     .replaceAll('\t', '\\t')
     .replaceAll(',', '\\,')
-    .replaceAll(';', '\\;')
-    .replaceAll('\\', '\\\\');
+    .replaceAll(';', '\\;');
