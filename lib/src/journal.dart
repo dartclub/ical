@@ -24,7 +24,7 @@ class IJournal extends ICalendarElement {
     String description,
     List<String> categories,
     String url,
-    IClass classification,
+    IClass classification = IClass.PRIVATE,
     String comment,
     IRecurrenceRule rrule,
   }) : super(

@@ -27,7 +27,7 @@ class IEvent extends ICalendarElement with EventToDo {
     String description,
     List<String> categories,
     String url,
-    IClass classification,
+    IClass classification = IClass.PRIVATE,
     String comment,
     IRecurrenceRule rrule,
     this.transparency,

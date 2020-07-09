@@ -1,3 +1,4 @@
+import 'package:ical/serializer.dart';
 import 'package:ical/src/utils.dart';
 
 import 'utils.dart' as utils;
@@ -74,7 +75,7 @@ class IRecurrenceRule {
       out.write(';UNTIL=${utils.formatDateTime(untilDate)}');
     }
     if (count > 0) {
-      out.write('COUNT=$count');
+      out.write(';COUNT=$count');
     }
     if (interval > 0) {
       out.write(';INTERVAL=$interval');
@@ -111,7 +112,7 @@ abstract class ICalendarElement extends AbstractSerializer {
   String description;
   List<String> categories;
   String url;
-  IClass classification = IClass.PRIVATE;
+  IClass classification;
   String comment;
   IRecurrenceRule rrule;
 
@@ -122,7 +123,7 @@ abstract class ICalendarElement extends AbstractSerializer {
     this.description,
     this.categories,
     this.url,
-    this.classification,
+    this.classification = IClass.PRIVATE,
     this.comment,
     this.rrule,
   });
@@ -130,7 +131,7 @@ abstract class ICalendarElement extends AbstractSerializer {
   String serialize() {
     var out = StringBuffer();
 
-    if (uid == null) uid = nanoid(32);
+    uid ??= nanoid(32);
 
     out.writeln('UID:$uid');
 
@@ -141,10 +142,9 @@ abstract class ICalendarElement extends AbstractSerializer {
     if (comment != null) out.writeln('COMMENT:${escapeValue(comment)}');
     if (summary != null) out.writeln('SUMMARY:${escapeValue(summary)}');
     if (url != null) out.writeln('URL:${url}');
-    out.writeln('CLASS:$classification');
-    if (description != null) {
+    if (classification != null) out.writeln('CLASS:$classification');
+    if (description != null)
       out.writeln('DESCRIPTION:${escapeValue(description)}');
-    }
     if (rrule != null) out.write(rrule.serialize());
 
     return out.toString();
