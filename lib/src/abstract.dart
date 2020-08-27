@@ -1,4 +1,5 @@
 import 'package:ical/serializer.dart';
+import 'package:ical/src/structure.dart';
 import 'package:ical/src/utils.dart';
 
 import 'utils.dart' as utils;
@@ -7,6 +8,10 @@ import 'package:nanoid/nanoid.dart';
 
 abstract class AbstractSerializer {
   String serialize();
+}
+
+abstract class AbstractDeserializer {
+  void deserialize(ICalStructure structure);
 }
 
 class IClass {
@@ -105,7 +110,7 @@ class IOrganizer {
   }
 }
 
-abstract class ICalendarElement extends AbstractSerializer {
+abstract class ICalendarElement implements AbstractSerializer, AbstractDeserializer {
   IOrganizer organizer;
   String uid;
   String summary;
@@ -149,6 +154,19 @@ abstract class ICalendarElement extends AbstractSerializer {
 
     return out.toString();
   }
+
+  @override
+  void deserialize(ICalStructure structure) {
+    uid = structure["UID"]?.value;
+    categories = structure["CATEGORIES"]?.value?.split(",");
+    comment = structure["COMMENT"]?.value;
+    summary = structure["SUMMARY"]?.value;
+    url = structure["URL"]?.value;
+    final classificationString = structure["CLASSIFICATION"]?.value;
+    if(classificationString != null) classification = IClass._(classificationString);
+    // TODO support rrule
+  }
+
   // TODO ATTENDEE
   // TODO CONTACT
 }

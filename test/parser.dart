@@ -34,11 +34,48 @@ DTEND;VALUE=DATE:20200908""";
       expect(result.map((e) => e.key), ["CREATED", "DTSTAMP", "LAST-MODIFIED", "DTSTART", "DTEND"]);
     });
 
-    test('parse folded row', () {
+    test('parse calendar', () {
       const foldedRow = """TEST:testtesttesttesttesttest
  testtest""";
       final row = parser.parseText(foldedRow).firstWhere((element) => element.key == "TEST");
       expect(row?.value, "testtesttesttesttesttesttesttest");
+    });
+
+    test('parse example ICalStructure', () {
+      const testIcs = """BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+BEGIN:VEVENT
+SUMMARY:Access-A-Ride Pickup
+DTSTART;TZID=America/New_York:20130802T103400
+DTEND;TZID=America/New_York:20130802T110400
+LOCATION:1000 Broadway Ave.\, Brooklyn
+DESCRIPTION: Access-A-Ride trip to 900 Jay St.\, Brooklyn
+STATUS:CONFIRMED
+SEQUENCE:3
+BEGIN:VALARM
+TRIGGER:-PT10M
+DESCRIPTION:Pickup Reminder
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+SUMMARY:Access-A-Ride Pickup
+DTSTART;TZID=America/New_York:20130802T200000
+DTEND;TZID=America/New_York:20130802T203000
+LOCATION:900 Jay St.\, Brooklyn
+DESCRIPTION: Access-A-Ride trip to 1000 Broadway Ave.\, Brooklyn
+STATUS:CONFIRMED
+SEQUENCE:3
+BEGIN:VALARM
+TRIGGER:-PT10M
+DESCRIPTION:Pickup Reminder
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR""";
+      final result = parser.parseCalender(testIcs);
+      expect(result.events.length, 2);
     });
   });
 }
