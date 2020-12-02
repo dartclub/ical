@@ -19,7 +19,7 @@ class IEvent extends ICalendarElement with EventToDo {
   IEvent({
     IOrganizer organizer,
     String uid,
-    this.status,
+    this.status = IEventStatus.CONFIRMED,
     this.start,
     this.end,
     this.duration,
@@ -51,7 +51,6 @@ class IEvent extends ICalendarElement with EventToDo {
 
   @override
   String serialize() {
-    super.serialize();
     var out = StringBuffer()
       ..writeln('BEGIN:VEVENT')
       ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}');
@@ -71,7 +70,6 @@ class IEvent extends ICalendarElement with EventToDo {
     if (transparency != null) {
       out.writeln('TRANSP:$transparency');
     }
-
     out
       ..writeln('STATUS:$status')
       ..write(super.serialize())
