@@ -53,30 +53,33 @@ class IEvent extends ICalendarElement with EventToDo {
   String serialize() {
     super.serialize();
     var out = StringBuffer()
-      ..writeln('BEGIN:VEVENT')
-      ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}');
+      ..write('BEGIN:VEVENT$CLRF_LINE_DELIMITER')
+      ..write(
+          'DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}$CLRF_LINE_DELIMITER');
 
     if ((end == null && duration == null)) {
-      out.writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
+      out.write(
+          'DTSTART;VALUE=DATE:${utils.formatDate(start)}$CLRF_LINE_DELIMITER');
     } else {
-      out.writeln('DTSTART:${utils.formatDateTime(start)}');
+      out.write('DTSTART:${utils.formatDateTime(start)}$CLRF_LINE_DELIMITER');
     }
 
     if (end != null) {
-      out.writeln('DTEND:${utils.formatDateTime(end)}');
+      out.write('DTEND:${utils.formatDateTime(end)}$CLRF_LINE_DELIMITER');
     }
     if (duration != null) {
-      out.writeln('DURATION:${utils.formatDuration(duration)}');
+      out.write(
+          'DURATION:${utils.formatDuration(duration)}$CLRF_LINE_DELIMITER');
     }
     if (transparency != null) {
-      out.writeln('TRANSP:$transparency');
+      out.write('TRANSP:$transparency$CLRF_LINE_DELIMITER');
     }
 
     out
-      ..writeln('STATUS:$status')
+      ..write('STATUS:$status$CLRF_LINE_DELIMITER')
       ..write(super.serialize())
       ..write(serializeEventToDo())
-      ..writeln('END:VEVENT');
+      ..write('END:VEVENT$CLRF_LINE_DELIMITER');
     return out.toString();
   }
 }
