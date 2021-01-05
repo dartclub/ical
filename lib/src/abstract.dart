@@ -130,6 +130,28 @@ abstract class ICalendarElement extends AbstractSerializer {
     this.rrule,
   });
 
+  String ical_split(String value, {String preamble = "DESCRIPTION:"}) {
+    const CONTENT_LINES_MAX_OCTETS = 75;
+
+    final lines = [];
+    var v = value;
+
+    final LINE_LENGTH_WITHOUT_PREAMBLE =
+        CONTENT_LINES_MAX_OCTETS - preamble.length;
+
+    if (v.length > LINE_LENGTH_WITHOUT_PREAMBLE) {
+      lines.add(v.substring(0, LINE_LENGTH_WITHOUT_PREAMBLE));
+      v = v.substring(LINE_LENGTH_WITHOUT_PREAMBLE);
+    }
+
+    while (v.length > CONTENT_LINES_MAX_OCTETS) {
+      lines.add(v.substring(0, CONTENT_LINES_MAX_OCTETS));
+      v = v.substring(CONTENT_LINES_MAX_OCTETS);
+    }
+    if (v.isNotEmpty) lines.add(v);
+    return lines.join("$CLRF_LINE_DELIMITER\t");
+  }
+
   String serialize() {
     var out = StringBuffer();
 
@@ -150,7 +172,8 @@ abstract class ICalendarElement extends AbstractSerializer {
     if (classification != null)
       out.write('CLASS:$classification$CLRF_LINE_DELIMITER');
     if (description != null)
-      out.write('DESCRIPTION:${escapeValue(description)}$CLRF_LINE_DELIMITER');
+      out.write(
+          'DESCRIPTION:${ical_split(escapeValue(description))}$CLRF_LINE_DELIMITER');
     if (rrule != null) out.write(rrule.serialize());
 
     return out.toString();
