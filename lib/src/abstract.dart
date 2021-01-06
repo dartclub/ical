@@ -132,6 +132,7 @@ abstract class ICalendarElement extends AbstractSerializer {
 
   String ical_split(String value, {String preamble = "DESCRIPTION:"}) {
     const CONTENT_LINES_MAX_OCTETS = 75;
+    const CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE = CONTENT_LINES_MAX_OCTETS - 1;
 
     final lines = [];
     var v = value;
@@ -144,9 +145,9 @@ abstract class ICalendarElement extends AbstractSerializer {
       v = v.substring(LINE_LENGTH_WITHOUT_PREAMBLE);
     }
 
-    while (v.length > CONTENT_LINES_MAX_OCTETS) {
-      lines.add(v.substring(0, CONTENT_LINES_MAX_OCTETS));
-      v = v.substring(CONTENT_LINES_MAX_OCTETS);
+    while (v.length > CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE) {
+      lines.add(v.substring(0, CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE));
+      v = v.substring(CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE);
     }
     if (v.isNotEmpty) lines.add(v);
     return lines.join("$CLRF_LINE_DELIMITER\t");
