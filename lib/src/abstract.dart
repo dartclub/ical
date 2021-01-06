@@ -130,7 +130,7 @@ abstract class ICalendarElement extends AbstractSerializer {
     this.rrule,
   });
 
-  String ical_split(String value, {String preamble = "DESCRIPTION:"}) {
+  String _foldLiens(String value, {String preamble = "DESCRIPTION:"}) {
     const CONTENT_LINES_MAX_OCTETS = 75;
     const CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE = CONTENT_LINES_MAX_OCTETS - 1;
 
@@ -150,7 +150,10 @@ abstract class ICalendarElement extends AbstractSerializer {
       v = v.substring(CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE);
     }
     if (v.isNotEmpty) lines.add(v);
-    return lines.join("$CLRF_LINE_DELIMITER\t");
+
+    return lines.length == 1
+        ? lines.first
+        : lines.join("$CLRF_LINE_DELIMITER\t");
   }
 
   String serialize() {
@@ -174,7 +177,7 @@ abstract class ICalendarElement extends AbstractSerializer {
       out.write('CLASS:$classification$CLRF_LINE_DELIMITER');
     if (description != null)
       out.write(
-          'DESCRIPTION:${ical_split(escapeValue(description))}$CLRF_LINE_DELIMITER');
+          'DESCRIPTION:${_foldLiens(escapeValue(description))}$CLRF_LINE_DELIMITER');
     if (rrule != null) out.write(rrule.serialize());
 
     return out.toString();
