@@ -134,6 +134,8 @@ abstract class ICalendarElement extends AbstractSerializer {
     const CONTENT_LINES_MAX_OCTETS = 75;
     const CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE = CONTENT_LINES_MAX_OCTETS - 1;
 
+    if (value == null || value.isEmpty) return '';
+
     final lines = [];
     var v = value;
 
