@@ -1,3 +1,5 @@
+import 'package:ical/src/structure.dart';
+
 import 'abstract.dart';
 import 'subcomponents.dart';
 import 'utils.dart' as utils;
@@ -78,6 +80,27 @@ class IEvent extends ICalendarElement with EventToDo {
       ..write(serializeEventToDo())
       ..writeln('END:VEVENT');
     return out.toString();
+  }
+
+  @override
+  void deserialize(ICalStructure structure) {
+    super.deserialize(structure);
+    start = _parseDate(structure["DTSTART"]);
+    end = _parseDate(structure["DTEND"]);
+    // TODO support duration
+    transparency = structure["TRANSP"] != null
+      ? ITimeTransparency._(structure["TRANSP"].value)
+        : null;
+    status = structure["STATUS"] != null
+      ? IEventStatus._(structure["STATUS"].value)
+        : null;
+    // TODO support missing event to do;
+  }
+
+  DateTime _parseDate(ICalRow row) {
+    if(row == null || row.value == null) return null;
+    // TODO: add TZID support
+    return DateTime.parse(row.value);
   }
 }
 

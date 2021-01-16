@@ -25,3 +25,10 @@ String escapeValue(String val) => val
     .replaceAll('\t', '\\t')
     .replaceAll(',', '\\,')
     .replaceAll(';', '\\;');
+
+String unescapeValue(String val) => val
+    .replaceAll('\\\\', '\\')
+    .replaceAll('\\n', '\n')
+    .replaceAll('\\t', '\t')
+    .replaceAll('\\,', ',')
+    .replaceAll('\\;', ';');

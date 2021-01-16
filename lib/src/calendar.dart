@@ -1,7 +1,10 @@
+import 'package:ical/serializer.dart';
+import 'package:ical/src/structure.dart';
+
 import 'abstract.dart';
 import 'utils.dart' as utils;
 
-class ICalendar extends AbstractSerializer {
+class ICalendar implements AbstractSerializer, AbstractDeserializer {
   List<ICalendarElement> _elements = <ICalendarElement>[];
   String company;
   String product;
@@ -17,6 +20,8 @@ class ICalendar extends AbstractSerializer {
 
   addAll(List<ICalendarElement> elements) => _elements.addAll(elements);
   addElement(ICalendarElement element) => _elements.add(element);
+
+  List<IEvent> get events => _elements.whereType<IEvent>().toList();
 
   @override
   String serialize() {
@@ -36,5 +41,15 @@ class ICalendar extends AbstractSerializer {
 
     out.writeln('END:VCALENDAR');
     return out.toString();
+  }
+
+  @override
+  void deserialize(ICalStructure structure) {
+    _elements = structure
+        .children
+        .where((child) => child.type == "VEVENT")
+        .map((event) => IEvent()..deserialize(event))
+        .cast<ICalendarElement>()
+        .toList();
   }
 }
