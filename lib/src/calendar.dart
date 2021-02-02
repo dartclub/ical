@@ -8,6 +8,8 @@ class ICalendar extends AbstractSerializer {
   String lang;
   Duration refreshInterval;
 
+  List<ICalendarElement> get elements => _elements;
+
   ICalendar({
     this.company = 'dartclub',
     this.product = 'ical/serializer',
