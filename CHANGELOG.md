@@ -9,3 +9,7 @@
 ### 0.1.3
 
 - fix bug #6
+
+### 0.1.4.
+
+- Flutter 2 and null safety support
