@@ -74,21 +74,26 @@ class ITodo extends ICalendarElement with EventToDo {
   @override
   String serialize() {
     var out = StringBuffer()
-      ..writeln('BEGIN:VTODO')
-      ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}')
-      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}')
-      ..writeln('STATUS:$status');
+      ..write('BEGIN:VTODO$CLRF_LINE_DELIMITER')
+      ..write(
+          'DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}$CLRF_LINE_DELIMITER')
+      ..write(
+          'DTSTART;VALUE=DATE:${utils.formatDate(start)}$CLRF_LINE_DELIMITER')
+      ..write('STATUS:$status$CLRF_LINE_DELIMITER');
 
-    if (due != null) out.writeln('DUE;VALUE=DATE:${utils.formatDate(due)}');
+    if (due != null)
+      out.write('DUE;VALUE=DATE:${utils.formatDate(due)}$CLRF_LINE_DELIMITER');
     if (duration != null) {
-      out.writeln('DURATION:${utils.formatDuration(duration)}');
+      out.write(
+          'DURATION:${utils.formatDuration(duration)}$CLRF_LINE_DELIMITER');
     }
 
-    if (complete != null) out.writeln('PERCENT-COMPLETE:$_complete');
+    if (complete != null)
+      out.write('PERCENT-COMPLETE:$_complete$CLRF_LINE_DELIMITER');
 
     out.write(super.serialize());
     out.write(serializeEventToDo());
-    out.writeln('END:VTODO');
+    out.write('END:VTODO$CLRF_LINE_DELIMITER');
     return out.toString();
   }
 }
