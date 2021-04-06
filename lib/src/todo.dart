@@ -16,29 +16,29 @@ class ITodoStatus {
 
 class ITodo extends ICalendarElement with EventToDo {
   ITodoStatus status;
-  DateTime completed;
-  DateTime due;
-  DateTime start;
-  Duration duration;
+  DateTime? completed;
+  DateTime? due;
+  DateTime? start;
+  Duration? duration;
 
-  String location;
-  double lat;
-  double lng;
-  List<String> resources;
-  IAlarm alarm;
-  int priority;
+  String? location;
+  double? lat;
+  double? lng;
+  List<String>? resources;
+  IAlarm? alarm;
+  int? priority;
 
-  int _complete;
+  late int _complete;
   set complete(int c) {
     assert(c >= 0 && c <= 100);
     _complete = c;
   }
 
-  get complete => _complete;
+  int get complete => _complete;
 
   ITodo({
-    IOrganizer organizer,
-    String uid,
+    IOrganizer? organizer,
+    String? uid,
     this.status = ITodoStatus.NEEDS_ACTION,
     this.start,
     this.due,
@@ -50,13 +50,13 @@ class ITodo extends ICalendarElement with EventToDo {
     this.alarm,
     int percentComplete = 0,
     this.priority = 0,
-    String summary,
-    String description,
-    List<String> categories,
-    String url,
+    String? summary,
+    String? description,
+    List<String>? categories,
+    String? url,
     IClass classification = IClass.PRIVATE,
-    String comment,
-    IRecurrenceRule rrule,
+    String? comment,
+    IRecurrenceRule? rrule,
   }) : super(
           organizer: organizer,
           uid: uid,
@@ -76,15 +76,15 @@ class ITodo extends ICalendarElement with EventToDo {
     var out = StringBuffer()
       ..writeln('BEGIN:VTODO')
       ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}')
-      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}')
+      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start!)}')
       ..writeln('STATUS:$status');
 
-    if (due != null) out.writeln('DUE;VALUE=DATE:${utils.formatDate(due)}');
+    if (due != null) out.writeln('DUE;VALUE=DATE:${utils.formatDate(due!)}');
     if (duration != null) {
-      out.writeln('DURATION:${utils.formatDuration(duration)}');
+      out.writeln('DURATION:${utils.formatDuration(duration!)}');
     }
 
-    if (complete != null) out.writeln('PERCENT-COMPLETE:$_complete');
+    out.writeln('PERCENT-COMPLETE:$_complete');
 
     out.write(super.serialize());
     out.write(serializeEventToDo());

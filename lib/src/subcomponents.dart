@@ -18,8 +18,8 @@ class IAlarm extends AbstractSerializer {
   IAlarmType type;
   Duration duration;
   int repeat;
-  DateTime trigger;
-  String description, summary;
+  DateTime? trigger;
+  String? description, summary;
 
   IAlarm.display({
     this.duration = const Duration(minutes: 15),
@@ -41,7 +41,7 @@ class IAlarm extends AbstractSerializer {
   //    this.summary})
   //s    : type = AlarmType.EMAIL;
 
-  String _serializeDescription() => 'DESCRIPTION:${escapeValue(description)}';
+  String _serializeDescription() => 'DESCRIPTION:${escapeValue(description!)}';
 
   @override
   String serialize() {
@@ -52,7 +52,7 @@ class IAlarm extends AbstractSerializer {
         break;
       case IAlarmType.EMAIL:
         out.writeln(_serializeDescription());
-        out.writeln('SUMMARY:${escapeValue(summary)}');
+        out.writeln('SUMMARY:${escapeValue(summary!)}');
 
         // TODO ATTENDEE
         break;
@@ -64,7 +64,7 @@ class IAlarm extends AbstractSerializer {
     }
 
     if (trigger != null) {
-      out.writeln('TRIGGER;VALUE=DATE-TIME:${utils.formatDateTime(trigger)}');
+      out.writeln('TRIGGER;VALUE=DATE-TIME:${utils.formatDateTime(trigger!)}');
     }
 
     out.writeln('END:VALARM');

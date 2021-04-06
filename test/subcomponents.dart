@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 main() {
   group('Alarm', () {
     group('Alarm.display', () {
-      IAlarm disp;
+      late IAlarm disp;
       setUp(() {
         disp = IAlarm.display(
           duration: Duration(minutes: 23),
