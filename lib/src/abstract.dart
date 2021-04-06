@@ -44,8 +44,8 @@ class IRecurrenceFrequency {
 }
 
 class IRecurrenceRule {
-  IRecurrenceFrequency frequency = IRecurrenceFrequency.DAILY;
-  DateTime untilDate;
+  IRecurrenceFrequency? frequency = IRecurrenceFrequency.DAILY;
+  DateTime? untilDate;
   int count;
   int interval;
   int weekday;
@@ -72,7 +72,7 @@ class IRecurrenceRule {
     out..write('RRULE:FREQ=$frequency');
 
     if (untilDate != null) {
-      out.write(';UNTIL=${utils.formatDateTime(untilDate)}');
+      out.write(';UNTIL=${utils.formatDateTime(untilDate!)}');
     }
     if (count > 0) {
       out.write(';COUNT=$count');
@@ -89,13 +89,13 @@ class IRecurrenceRule {
 }
 
 class IOrganizer {
-  String name;
-  String email;
+  String? name;
+  String? email;
   IOrganizer({this.name, this.email});
   String serializeOrganizer() {
     var out = StringBuffer()..write('ORGANIZER');
     if (name != null) {
-      out.write(';CN=${escapeValue(name)}');
+      out.write(';CN=${escapeValue(name!)}');
     }
     if (email == null) {
       return '';
@@ -106,15 +106,15 @@ class IOrganizer {
 }
 
 abstract class ICalendarElement extends AbstractSerializer {
-  IOrganizer organizer;
-  String uid;
-  String summary;
-  String description;
-  List<String> categories;
-  String url;
-  IClass classification;
-  String comment;
-  IRecurrenceRule rrule;
+  IOrganizer? organizer;
+  String? uid;
+  String? summary;
+  String? description;
+  List<String>? categories;
+  String? url;
+  IClass? classification;
+  String? comment;
+  IRecurrenceRule? rrule;
 
   ICalendarElement({
     this.organizer,
@@ -136,16 +136,16 @@ abstract class ICalendarElement extends AbstractSerializer {
     out.writeln('UID:$uid');
 
     if (categories != null) {
-      out.writeln('CATEGORIES:${categories.map(escapeValue).join(',')}');
+      out.writeln('CATEGORIES:${categories!.map(escapeValue).join(',')}');
     }
 
-    if (comment != null) out.writeln('COMMENT:${escapeValue(comment)}');
-    if (summary != null) out.writeln('SUMMARY:${escapeValue(summary)}');
+    if (comment != null) out.writeln('COMMENT:${escapeValue(comment!)}');
+    if (summary != null) out.writeln('SUMMARY:${escapeValue(summary!)}');
     if (url != null) out.writeln('URL:${url}');
     if (classification != null) out.writeln('CLASS:$classification');
     if (description != null)
-      out.writeln('DESCRIPTION:${escapeValue(description)}');
-    if (rrule != null) out.write(rrule.serialize());
+      out.writeln('DESCRIPTION:${escapeValue(description!)}');
+    if (rrule != null) out.write(rrule!.serialize());
 
     return out.toString();
   }
@@ -156,25 +156,25 @@ abstract class ICalendarElement extends AbstractSerializer {
 // Component Properties for Event + To-Do
 
 mixin EventToDo {
-  String location;
-  double lat;
-  double lng;
-  int priority;
-  List<String> resources;
-  IAlarm alarm;
+  String? location;
+  double? lat;
+  double? lng;
+  int? priority;
+  List<String>? resources;
+  IAlarm? alarm;
 
   String serializeEventToDo() {
     var out = StringBuffer();
-    if (location != null) out.writeln('LOCATION:${escapeValue(location)}');
+    if (location != null) out.writeln('LOCATION:${escapeValue(location!)}');
     if (lat != null && lng != null) out.writeln('GEO:$lat;$lng');
     if (resources != null) {
-      out.writeln('RESOURCES:${resources.map(escapeValue).join(',')}');
+      out.writeln('RESOURCES:${resources!.map(escapeValue).join(',')}');
     }
     if (priority != null) {
-      priority = (priority >= 0 && priority <= 9) ? priority : 0;
+      priority = (priority! >= 0 && priority! <= 9) ? priority : 0;
       out.writeln('PRIORITY:$priority');
     }
-    if (alarm != null) out.write(alarm.serialize());
+    if (alarm != null) out.write(alarm!.serialize());
 
     return out.toString();
   }

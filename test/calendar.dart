@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 main() {
   group('Calendar', () {
-    ICalendar iCalendar;
+    late ICalendar iCalendar;
     setUp(() {
       iCalendar = ICalendar(
         company: 'Umbrella Inc.',

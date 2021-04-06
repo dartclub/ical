@@ -5,7 +5,7 @@ import 'package:ical/src/abstract.dart';
 
 main() {
   group('Event', () {
-    IEvent e, e2;
+    late IEvent e, e2;
     setUp(() {
       e = IEvent(
         uid: 'lukas@himsel.me',
