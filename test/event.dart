@@ -5,7 +5,7 @@ import 'package:ical/src/abstract.dart';
 
 main() {
   group('Event', () {
-    IEvent e, e2;
+    late IEvent e, e2;
     setUp(() {
       e = IEvent(
         uid: 'lukas@himsel.me',
@@ -46,6 +46,7 @@ main() {
             weekday: 4),
         priority: 45,
         url: 'https://example.com',
+        status: IEventStatus.CONFIRMED,
       );
     });
 
