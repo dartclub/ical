@@ -3,34 +3,33 @@ import 'subcomponents.dart';
 import 'utils.dart' as utils;
 
 class IEvent extends ICalendarElement with EventToDo {
-  IEventStatus status = IEventStatus.CONFIRMED;
+  IEventStatus status;
   DateTime start;
-  DateTime end;
-  Duration duration;
-  ITimeTransparency transparency = ITimeTransparency.OPAQUE;
+  DateTime? end;
+  Duration? duration;
+  ITimeTransparency transparency;
 
-  String location;
-  double lat, lng;
-  List<String> resources;
-  IAlarm alarm;
-  IOrganizer organizer;
-  int priority;
+  String? location;
+  double? lat, lng;
+  List<String>? resources;
+  IAlarm? alarm;
+  int? priority;
 
   IEvent({
-    IOrganizer organizer,
-    String uid,
-    this.status,
-    this.start,
+    IOrganizer? organizer,
+    String? uid,
+    this.status = IEventStatus.CONFIRMED,
+    required this.start,
     this.end,
     this.duration,
-    String summary,
-    String description,
-    List<String> categories,
-    String url,
+    String? summary,
+    String? description,
+    List<String>? categories,
+    String? url,
     IClass classification = IClass.PRIVATE,
-    String comment,
-    IRecurrenceRule rrule,
-    this.transparency,
+    String? comment,
+    IRecurrenceRule? rrule,
+    this.transparency  = ITimeTransparency.OPAQUE,
     this.location,
     this.lat,
     this.lng,
@@ -54,7 +53,7 @@ class IEvent extends ICalendarElement with EventToDo {
     super.serialize();
     var out = StringBuffer()
       ..writeln('BEGIN:VEVENT')
-      ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}');
+      ..writeln('DTSTAMP:${utils.formatDateTime(DateTime.now())}');
 
     if ((end == null && duration == null)) {
       out.writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
@@ -63,14 +62,13 @@ class IEvent extends ICalendarElement with EventToDo {
     }
 
     if (end != null) {
-      out.writeln('DTEND:${utils.formatDateTime(end)}');
+      out.writeln('DTEND:${utils.formatDateTime(end!)}');
     }
     if (duration != null) {
-      out.writeln('DURATION:${utils.formatDuration(duration)}');
+      out.writeln('DURATION:${utils.formatDuration(duration!)}');
     }
-    if (transparency != null) {
-      out.writeln('TRANSP:$transparency');
-    }
+    
+    out.writeln('TRANSP:$transparency');
 
     out
       ..writeln('STATUS:$status')
