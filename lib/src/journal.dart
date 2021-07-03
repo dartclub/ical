@@ -16,7 +16,7 @@ class IJournal extends ICalendarElement {
   IJournalStatus status;
   DateTime start;
   IJournal({
-    this.status,
+    this.status = IJournalStatus.FINAL,
     this.start,
     IOrganizer organizer,
     String uid,

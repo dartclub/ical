@@ -88,17 +88,22 @@ class IRecurrenceRule {
   }
 }
 
-class IOrganizer {
+class IOrganizer extends AbstractSerializer {
   String name;
   String email;
   IOrganizer({this.name, this.email});
-  String serializeOrganizer() {
+
+  @Deprecated('Use .serialize() instead')
+  String serializeOrganizer() => serialize();
+
+  @override
+  String serialize() {
+    if (email == null) {
+      return '';
+    }
     var out = StringBuffer()..write('ORGANIZER');
     if (name != null) {
       out.write(';CN=${escapeValue(name)}');
-    }
-    if (email == null) {
-      return '';
     }
     out.writeln(':mailto:$email');
     return out.toString();
@@ -139,14 +144,29 @@ abstract class ICalendarElement extends AbstractSerializer {
       out.writeln('CATEGORIES:${categories.map(escapeValue).join(',')}');
     }
 
-    if (comment != null) out.writeln('COMMENT:${escapeValue(comment)}');
-    if (summary != null) out.writeln('SUMMARY:${escapeValue(summary)}');
-    if (url != null) out.writeln('URL:${url}');
-    if (classification != null) out.writeln('CLASS:$classification');
-    if (description != null)
+    if (comment != null) {
+      out.writeln('COMMENT:${escapeValue(comment)}');
+    }
+    if (summary != null) {
+      out.writeln('SUMMARY:${escapeValue(summary)}');
+    }
+    if (url != null) {
+      out.writeln('URL:${url}');
+    }
+    if (classification != null) {
+      out.writeln('CLASS:$classification');
+    }
+    if (description != null) {
       out.writeln('DESCRIPTION:${escapeValue(description)}');
-    if (rrule != null) out.write(rrule.serialize());
+    }
+    if (rrule != null) {
+      out.write(rrule.serialize());
+    }
 
+    if (organizer != null) {
+      out.writeln('HELELELELELELELOLO');
+      out.writeln(organizer.serialize());
+    }
     return out.toString();
   }
   // TODO ATTENDEE
