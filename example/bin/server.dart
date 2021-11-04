@@ -1,5 +1,6 @@
-import '../../lib/serializer.dart';
 import 'dart:io';
+
+import 'package:ical/serializer.dart';
 
 main() async {
   ICalendar cal = ICalendar();

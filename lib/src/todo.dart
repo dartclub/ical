@@ -81,15 +81,17 @@ class ITodo extends ICalendarElement with EventToDo {
           'DTSTART;VALUE=DATE:${utils.formatDate(start)}$CLRF_LINE_DELIMITER')
       ..write('STATUS:$status$CLRF_LINE_DELIMITER');
 
-    if (due != null)
+    if (due != null) {
       out.write('DUE;VALUE=DATE:${utils.formatDate(due)}$CLRF_LINE_DELIMITER');
+    }
     if (duration != null) {
       out.write(
           'DURATION:${utils.formatDuration(duration)}$CLRF_LINE_DELIMITER');
     }
 
-    if (complete != null)
+    if (complete != null) {
       out.write('PERCENT-COMPLETE:$_complete$CLRF_LINE_DELIMITER');
+    }
 
     out.write(super.serialize());
     out.write(serializeEventToDo());

@@ -170,16 +170,22 @@ abstract class ICalendarElement extends AbstractSerializer {
           'CATEGORIES:${categories.map(escapeValue).join(',')}$CLRF_LINE_DELIMITER');
     }
 
-    if (comment != null)
+    if (comment != null) {
       out.write('COMMENT:${escapeValue(comment)}$CLRF_LINE_DELIMITER');
-    if (summary != null)
+    }
+    if (summary != null) {
       out.write('SUMMARY:${escapeValue(summary)}$CLRF_LINE_DELIMITER');
-    if (url != null) out.write('URL:${url}$CLRF_LINE_DELIMITER');
-    if (classification != null)
+    }
+    if (url != null) {
+      out.write('URL:${url}$CLRF_LINE_DELIMITER');
+    }
+    if (classification != null) {
       out.write('CLASS:$classification$CLRF_LINE_DELIMITER');
-    if (description != null)
+    }
+    if (description != null) {
       out.write(
           'DESCRIPTION:${_foldLiens(escapeValue(description))}$CLRF_LINE_DELIMITER');
+    }
     if (rrule != null) out.write(rrule.serialize());
 
     return out.toString();
@@ -200,10 +206,12 @@ mixin EventToDo {
 
   String serializeEventToDo() {
     var out = StringBuffer();
-    if (location != null)
+    if (location != null) {
       out.write('LOCATION:${escapeValue(location)}$CLRF_LINE_DELIMITER');
-    if (lat != null && lng != null)
+    }
+    if (lat != null && lng != null) {
       out.write('GEO:$lat;$lng$CLRF_LINE_DELIMITER');
+    }
     if (resources != null) {
       out.write(
           'RESOURCES:${resources.map(escapeValue).join(',')}$CLRF_LINE_DELIMITER');

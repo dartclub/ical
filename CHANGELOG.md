@@ -10,6 +10,11 @@
 
 - fix bug #6
 
-### 0.1.4.
+### 0.1.4
 
 - Flutter 2 and null safety support
+
+### 0.1.5
+
+- fix delimiter [#10](https://github.com/dartclub/ical/pull/10)
+- update dependencies
