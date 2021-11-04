@@ -8,10 +8,10 @@ main() {
       expect(utils.formatDate(DateTime(1948, 12, 30)), '19481230');
     });
     test('formatDateTime', () {
-      expect(utils.formatDateTime(DateTime(2000, 2, 1, 23, 1)),
-          '20000201T230100Z');
+      expect(
+          utils.formatDateTime(DateTime(2000, 2, 1, 23, 1)), '20000201T230100');
       expect(utils.formatDateTime(DateTime(1948, 12, 30, 12, 45, 33)),
-          '19481230T124533Z');
+          '19481230T124533');
     });
     test('formatDuration', () {
       expect(

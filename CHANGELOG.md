@@ -18,3 +18,7 @@
 
 - fix delimiter [#10](https://github.com/dartclub/ical/pull/10)
 - update dependencies
+
+### 0.2.0
+
+- null safety support

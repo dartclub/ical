@@ -16,17 +16,17 @@ class IJournal extends ICalendarElement {
   IJournalStatus status;
   DateTime start;
   IJournal({
-    this.status,
-    this.start,
-    IOrganizer organizer,
-    String uid,
-    String summary,
-    String description,
-    List<String> categories,
-    String url,
+    this.status = IJournalStatus.FINAL,
+    required this.start,
+    IOrganizer? organizer,
+    String? uid,
+    String? summary,
+    String? description,
+    List<String>? categories,
+    String? url,
     IClass classification = IClass.PRIVATE,
-    String comment,
-    IRecurrenceRule rrule,
+    String? comment,
+    IRecurrenceRule? rrule,
   }) : super(
           organizer: organizer,
           uid: uid,
@@ -43,8 +43,7 @@ class IJournal extends ICalendarElement {
   String serialize() {
     var out = StringBuffer()
       ..write('BEGIN:VJOURNAL$CLRF_LINE_DELIMITER')
-      ..write(
-          'DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}$CLRF_LINE_DELIMITER')
+      ..write('DTSTAMP:${utils.formatDateTime(start)}$CLRF_LINE_DELIMITER')
       ..write(
           'DTSTART;VALUE=DATE:${utils.formatDate(start)}$CLRF_LINE_DELIMITER')
       ..write('STATUS:$status$CLRF_LINE_DELIMITER')

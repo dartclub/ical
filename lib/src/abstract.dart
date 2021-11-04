@@ -47,7 +47,7 @@ class IRecurrenceFrequency {
 
 class IRecurrenceRule {
   IRecurrenceFrequency frequency = IRecurrenceFrequency.DAILY;
-  DateTime untilDate;
+  DateTime? untilDate;
   int count;
   int interval;
   int weekday;
@@ -63,7 +63,7 @@ class IRecurrenceRule {
     "SA"
   ];
   IRecurrenceRule({
-    this.frequency,
+    required this.frequency,
     this.untilDate,
     this.count = 0,
     this.interval = 0,
@@ -74,7 +74,7 @@ class IRecurrenceRule {
     out..write('RRULE:FREQ=$frequency');
 
     if (untilDate != null) {
-      out.write(';UNTIL=${utils.formatDateTime(untilDate)}');
+      out.write(';UNTIL=${utils.formatDateTime(untilDate!)}');
     }
     if (count > 0) {
       out.write(';COUNT=$count');
@@ -91,13 +91,13 @@ class IRecurrenceRule {
 }
 
 class IOrganizer {
-  String name;
-  String email;
+  String? name;
+  String? email;
   IOrganizer({this.name, this.email});
   String serializeOrganizer() {
     var out = StringBuffer()..write('ORGANIZER');
     if (name != null) {
-      out.write(';CN=${escapeValue(name)}');
+      out.write(';CN=${escapeValue(name!)}');
     }
     if (email == null) {
       return '';
@@ -108,15 +108,15 @@ class IOrganizer {
 }
 
 abstract class ICalendarElement extends AbstractSerializer {
-  IOrganizer organizer;
-  String uid;
-  String summary;
-  String description;
-  List<String> categories;
-  String url;
-  IClass classification;
-  String comment;
-  IRecurrenceRule rrule;
+  IOrganizer? organizer;
+  String? uid;
+  String? summary;
+  String? description;
+  List<String>? categories;
+  String? url;
+  IClass? classification;
+  String? comment;
+  IRecurrenceRule? rrule;
 
   ICalendarElement({
     this.organizer,
@@ -130,11 +130,11 @@ abstract class ICalendarElement extends AbstractSerializer {
     this.rrule,
   });
 
-  String _foldLiens(String value, {String preamble = "DESCRIPTION:"}) {
+  String _foldLines(String value, {String preamble = "DESCRIPTION:"}) {
     const CONTENT_LINES_MAX_OCTETS = 75;
     const CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE = CONTENT_LINES_MAX_OCTETS - 1;
 
-    if (value == null || value.isEmpty) return '';
+    if (value.isEmpty) return '';
 
     final lines = [];
     var v = value;
@@ -167,14 +167,14 @@ abstract class ICalendarElement extends AbstractSerializer {
 
     if (categories != null) {
       out.write(
-          'CATEGORIES:${categories.map(escapeValue).join(',')}$CLRF_LINE_DELIMITER');
+          'CATEGORIES:${categories!.map(escapeValue).join(',')}$CLRF_LINE_DELIMITER');
     }
 
     if (comment != null) {
-      out.write('COMMENT:${escapeValue(comment)}$CLRF_LINE_DELIMITER');
+      out.write('COMMENT:${escapeValue(comment!)}$CLRF_LINE_DELIMITER');
     }
     if (summary != null) {
-      out.write('SUMMARY:${escapeValue(summary)}$CLRF_LINE_DELIMITER');
+      out.write('SUMMARY:${escapeValue(summary!)}$CLRF_LINE_DELIMITER');
     }
     if (url != null) {
       out.write('URL:${url}$CLRF_LINE_DELIMITER');
@@ -184,9 +184,9 @@ abstract class ICalendarElement extends AbstractSerializer {
     }
     if (description != null) {
       out.write(
-          'DESCRIPTION:${_foldLiens(escapeValue(description))}$CLRF_LINE_DELIMITER');
+          'DESCRIPTION:${_foldLines(escapeValue(description!))}$CLRF_LINE_DELIMITER');
     }
-    if (rrule != null) out.write(rrule.serialize());
+    if (rrule != null) out.write(rrule!.serialize());
 
     return out.toString();
   }
@@ -197,30 +197,30 @@ abstract class ICalendarElement extends AbstractSerializer {
 // Component Properties for Event + To-Do
 
 mixin EventToDo {
-  String location;
-  double lat;
-  double lng;
-  int priority;
-  List<String> resources;
-  IAlarm alarm;
+  String? location;
+  double? lat;
+  double? lng;
+  int? priority;
+  List<String>? resources;
+  IAlarm? alarm;
 
   String serializeEventToDo() {
     var out = StringBuffer();
     if (location != null) {
-      out.write('LOCATION:${escapeValue(location)}$CLRF_LINE_DELIMITER');
+      out.write('LOCATION:${escapeValue(location!)}$CLRF_LINE_DELIMITER');
     }
     if (lat != null && lng != null) {
       out.write('GEO:$lat;$lng$CLRF_LINE_DELIMITER');
     }
     if (resources != null) {
       out.write(
-          'RESOURCES:${resources.map(escapeValue).join(',')}$CLRF_LINE_DELIMITER');
+          'RESOURCES:${resources!.map(escapeValue).join(',')}$CLRF_LINE_DELIMITER');
     }
     if (priority != null) {
-      priority = (priority >= 0 && priority <= 9) ? priority : 0;
+      priority = (priority! >= 0 && priority! <= 9) ? priority : 0;
       out.write('PRIORITY:$priority$CLRF_LINE_DELIMITER');
     }
-    if (alarm != null) out.write(alarm.serialize());
+    if (alarm != null) out.write(alarm!.serialize());
 
     return out.toString();
   }

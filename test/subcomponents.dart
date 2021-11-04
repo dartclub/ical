@@ -1,10 +1,11 @@
+import 'package:ical/serializer.dart';
 import 'package:ical/src/subcomponents.dart';
 import 'package:test/test.dart';
 
 main() {
   group('Alarm', () {
     group('Alarm.display', () {
-      IAlarm disp;
+      late IAlarm disp;
       setUp(() {
         disp = IAlarm.display(
           duration: Duration(minutes: 23),
@@ -12,13 +13,12 @@ main() {
           repeat: 3,
           trigger: DateTime.now().add(Duration(hours: 3)),
         );
-        test('duration', () {
-          expect(disp.duration, Duration(minutes: 23));
-        });
       });
-
+      test('duration', () {
+        expect(disp.duration, Duration(minutes: 23));
+      });
       test('serialize', () {
-        List<String> out = disp.serialize().trim().split('\n');
+        List<String> out = disp.serialize().trim().split(CLRF_LINE_DELIMITER);
         print(out.join('\n'));
         expect(out[0], 'BEGIN:VALARM');
         expect(out[out.length - 1], 'END:VALARM');
