@@ -42,12 +42,14 @@ class IJournal extends ICalendarElement {
   @override
   String serialize() {
     var out = StringBuffer()
-      ..writeln('BEGIN:VJOURNAL')
-      ..writeln('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}')
-      ..writeln('DTSTART;VALUE=DATE:${utils.formatDate(start)}')
-      ..writeln('STATUS:$status')
+      ..write('BEGIN:VJOURNAL$CLRF_LINE_DELIMITER')
+      ..write(
+          'DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}$CLRF_LINE_DELIMITER')
+      ..write(
+          'DTSTART;VALUE=DATE:${utils.formatDate(start)}$CLRF_LINE_DELIMITER')
+      ..write('STATUS:$status$CLRF_LINE_DELIMITER')
       ..write(super.serialize())
-      ..writeln('END:VJOURNAL');
+      ..write('END:VJOURNAL$CLRF_LINE_DELIMITER');
     return out.toString();
   }
 }
