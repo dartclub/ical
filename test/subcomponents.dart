@@ -1,5 +1,6 @@
 import 'package:ical/serializer.dart';
 import 'package:ical/src/subcomponents.dart';
+import 'package:ical/src/utils.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -18,7 +19,7 @@ main() {
         expect(disp.duration, Duration(minutes: 23));
       });
       test('serialize', () {
-        List<String> out = disp.serialize().trim().split(CLRF_LINE_DELIMITER);
+        List<String> out = disp.serialize().trim().split(CRLF_LINE_DELIMITER);
         print(out.join('\n'));
         expect(out[0], 'BEGIN:VALARM');
         expect(out[out.length - 1], 'END:VALARM');

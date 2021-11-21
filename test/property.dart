@@ -1,4 +1,5 @@
 import 'package:ical/src/abstract.dart';
+import 'package:ical/src/utils.dart';
 import 'package:test/test.dart';
 
 class ElementTest extends ICalendarElement {
@@ -52,7 +53,7 @@ main() {
     test('t2', () {
       var s2 = t2.serialize();
       print(s2);
-      var rows = s2.trimRight().split(CLRF_LINE_DELIMITER);
+      var rows = s2.trimRight().split(CRLF_LINE_DELIMITER);
       expect(rows.length, 8);
       expect(rows[0], 'UID:very unique key');
       expect(rows[1], 'CATEGORIES:1,2,3');

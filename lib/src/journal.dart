@@ -1,3 +1,5 @@
+import 'package:ical/src/utils.dart';
+
 import 'abstract.dart';
 import 'utils.dart' as utils;
 
@@ -42,13 +44,12 @@ class IJournal extends ICalendarElement {
   @override
   String serialize() {
     var out = StringBuffer()
-      ..write('BEGIN:VJOURNAL$CLRF_LINE_DELIMITER')
-      ..write('DTSTAMP:${utils.formatDateTime(start)}$CLRF_LINE_DELIMITER')
-      ..write(
-          'DTSTART;VALUE=DATE:${utils.formatDate(start)}$CLRF_LINE_DELIMITER')
-      ..write('STATUS:$status$CLRF_LINE_DELIMITER')
+      ..writecrlf('BEGIN:VJOURNAL')
+      ..writecrlf('DTSTAMP:${utils.formatDateTime(start)}')
+      ..writecrlf('DTSTART;VALUE=DATE:${utils.formatDate(start)}')
+      ..writecrlf('STATUS:$status')
       ..write(super.serialize())
-      ..write('END:VJOURNAL$CLRF_LINE_DELIMITER');
+      ..writecrlf('END:VJOURNAL');
     return out.toString();
   }
 }

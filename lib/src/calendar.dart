@@ -23,20 +23,20 @@ class ICalendar extends AbstractSerializer {
   @override
   String serialize() {
     var out = StringBuffer()
-      ..write('BEGIN:VCALENDAR$CLRF_LINE_DELIMITER')
-      ..write('VERSION:2.0$CLRF_LINE_DELIMITER')
-      ..write('PRODID://${company}//${product}//${lang}$CLRF_LINE_DELIMITER');
+      ..writecrlf('BEGIN:VCALENDAR')
+      ..writecrlf('VERSION:2.0')
+      ..writecrlf('PRODID://${company}//${product}//${lang}');
 
     if (refreshInterval != null) {
-      out.write(
-          'REFRESH-INTERVAL;VALUE=DURATION:${utils.formatDuration(refreshInterval!)}$CLRF_LINE_DELIMITER');
+      out.writecrlf(
+          'REFRESH-INTERVAL;VALUE=DURATION:${utils.formatDuration(refreshInterval!)}');
     }
 
     for (ICalendarElement element in _elements) {
       out.write(element.serialize());
     }
 
-    out.write('END:VCALENDAR$CLRF_LINE_DELIMITER');
+    out.writecrlf('END:VCALENDAR');
     return out.toString();
   }
 }

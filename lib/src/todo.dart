@@ -1,3 +1,5 @@
+import 'package:ical/src/utils.dart';
+
 import 'abstract.dart';
 import 'subcomponents.dart';
 import 'utils.dart' as utils;
@@ -74,26 +76,23 @@ class ITodo extends ICalendarElement with EventToDo {
   @override
   String serialize() {
     var out = StringBuffer()
-      ..write('BEGIN:VTODO$CLRF_LINE_DELIMITER')
-      ..write(
-          'DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}$CLRF_LINE_DELIMITER')
-      ..write(
-          'DTSTART;VALUE=DATE:${utils.formatDate(start!)}$CLRF_LINE_DELIMITER')
-      ..write('STATUS:$status$CLRF_LINE_DELIMITER');
+      ..writecrlf('BEGIN:VTODO')
+      ..writecrlf('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}')
+      ..writecrlf('DTSTART;VALUE=DATE:${utils.formatDate(start!)}')
+      ..writecrlf('STATUS:$status');
 
     if (due != null) {
-      out.write('DUE;VALUE=DATE:${utils.formatDate(due!)}$CLRF_LINE_DELIMITER');
+      out.writecrlf('DUE;VALUE=DATE:${utils.formatDate(due!)}');
     }
     if (duration != null) {
-      out.write(
-          'DURATION:${utils.formatDuration(duration!)}$CLRF_LINE_DELIMITER');
+      out.writecrlf('DURATION:${utils.formatDuration(duration!)}');
     }
 
-    out.write('PERCENT-COMPLETE:$_complete$CLRF_LINE_DELIMITER');
+    out.writecrlf('PERCENT-COMPLETE:$_complete');
 
     out.write(super.serialize());
     out.write(serializeEventToDo());
-    out.write('END:VTODO$CLRF_LINE_DELIMITER');
+    out.writecrlf('END:VTODO');
     return out.toString();
   }
 }

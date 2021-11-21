@@ -46,32 +46,31 @@ class IAlarm extends AbstractSerializer {
   @override
   String serialize() {
     var out = StringBuffer()
-      ..write('BEGIN:VALARM$CLRF_LINE_DELIMITER')
-      ..write('ACTION:$type$CLRF_LINE_DELIMITER');
+      ..writecrlf('BEGIN:VALARM')
+      ..writecrlf('ACTION:$type');
     switch (type) {
       case IAlarmType.DISPLAY:
-        out.write(_serializeDescription() + CLRF_LINE_DELIMITER);
+        out.writecrlf(_serializeDescription());
         break;
       case IAlarmType.EMAIL:
-        out.write(_serializeDescription() + CLRF_LINE_DELIMITER);
-        out.write('SUMMARY:${escapeValue(summary!)}$CLRF_LINE_DELIMITER');
+        out.writecrlf(_serializeDescription());
+        out.writecrlf('SUMMARY:${escapeValue(summary!)}');
 
         // TODO ATTENDEE
         break;
     }
 
     if (repeat > 1) {
-      out.write('REPEAT:$repeat$CLRF_LINE_DELIMITER');
-      out.write(
-          'DURATION:${utils.formatDuration(duration)}$CLRF_LINE_DELIMITER');
+      out.writecrlf('REPEAT:$repeat');
+      out.writecrlf('DURATION:${utils.formatDuration(duration)}');
     }
 
     if (trigger != null) {
-      out.write(
-          'TRIGGER;VALUE=DATE-TIME:${utils.formatDateTime(trigger!)}$CLRF_LINE_DELIMITER');
+      out.writecrlf(
+          'TRIGGER;VALUE=DATE-TIME:${utils.formatDateTime(trigger!)}');
     }
 
-    out.write('END:VALARM$CLRF_LINE_DELIMITER');
+    out.writecrlf('END:VALARM');
     return out.toString();
   }
 }

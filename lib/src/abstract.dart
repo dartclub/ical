@@ -5,8 +5,6 @@ import 'utils.dart' as utils;
 import 'subcomponents.dart';
 import 'package:nanoid/nanoid.dart';
 
-const CLRF_LINE_DELIMITER = "\r\n";
-
 abstract class AbstractSerializer {
   String serialize();
 }
@@ -85,7 +83,7 @@ class IRecurrenceRule {
     if (weekday > 0 && weekday < 8) {
       out.write(';WKST=${weekdays[weekday - 1]}');
     }
-    out.write(CLRF_LINE_DELIMITER);
+    out.writecrlf('');
     return out.toString();
   }
 }
@@ -102,7 +100,7 @@ class IOrganizer {
     if (email == null) {
       return '';
     }
-    out.write(':mailto:$email$CLRF_LINE_DELIMITER');
+    out.writecrlf(':mailto:$email');
     return out.toString();
   }
 }
@@ -155,7 +153,7 @@ abstract class ICalendarElement extends AbstractSerializer {
 
     return lines.length == 1
         ? lines.first
-        : lines.join("$CLRF_LINE_DELIMITER\t");
+        : lines.join("$CRLF_LINE_DELIMITER\t");
   }
 
   String serialize() {
@@ -163,28 +161,26 @@ abstract class ICalendarElement extends AbstractSerializer {
 
     uid ??= nanoid(32);
 
-    out.write('UID:$uid$CLRF_LINE_DELIMITER');
+    out.writecrlf('UID:$uid');
 
     if (categories != null) {
-      out.write(
-          'CATEGORIES:${categories!.map(escapeValue).join(',')}$CLRF_LINE_DELIMITER');
+      out.writecrlf('CATEGORIES:${categories!.map(escapeValue).join(',')}');
     }
 
     if (comment != null) {
-      out.write('COMMENT:${escapeValue(comment!)}$CLRF_LINE_DELIMITER');
+      out.writecrlf('COMMENT:${escapeValue(comment!)}');
     }
     if (summary != null) {
-      out.write('SUMMARY:${escapeValue(summary!)}$CLRF_LINE_DELIMITER');
+      out.writecrlf('SUMMARY:${escapeValue(summary!)}');
     }
     if (url != null) {
-      out.write('URL:${url}$CLRF_LINE_DELIMITER');
+      out.writecrlf('URL:${url}');
     }
     if (classification != null) {
-      out.write('CLASS:$classification$CLRF_LINE_DELIMITER');
+      out.writecrlf('CLASS:$classification');
     }
     if (description != null) {
-      out.write(
-          'DESCRIPTION:${_foldLines(escapeValue(description!))}$CLRF_LINE_DELIMITER');
+      out.writecrlf('DESCRIPTION:${_foldLines(escapeValue(description!))}');
     }
     if (rrule != null) out.write(rrule!.serialize());
 
@@ -207,21 +203,26 @@ mixin EventToDo {
   String serializeEventToDo() {
     var out = StringBuffer();
     if (location != null) {
-      out.write('LOCATION:${escapeValue(location!)}$CLRF_LINE_DELIMITER');
+      out.writecrlf('LOCATION:${escapeValue(location!)}');
     }
     if (lat != null && lng != null) {
-      out.write('GEO:$lat;$lng$CLRF_LINE_DELIMITER');
+      out.writecrlf('GEO:$lat;$lng');
     }
     if (resources != null) {
-      out.write(
-          'RESOURCES:${resources!.map(escapeValue).join(',')}$CLRF_LINE_DELIMITER');
+      out.writecrlf('RESOURCES:${resources!.map(escapeValue).join(',')}');
     }
     if (priority != null) {
       priority = (priority! >= 0 && priority! <= 9) ? priority : 0;
-      out.write('PRIORITY:$priority$CLRF_LINE_DELIMITER');
+      out.writecrlf('PRIORITY:$priority');
     }
     if (alarm != null) out.write(alarm!.serialize());
 
     return out.toString();
   }
+}
+
+const CRLF_LINE_DELIMITER = "\r\n";
+
+extension StringBufferWithWriteCrLf on StringBuffer {
+  writecrlf(Object? object) => write('$object$CRLF_LINE_DELIMITER');
 }

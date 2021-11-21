@@ -22,3 +22,8 @@
 ### 0.2.0
 
 - null safety support
+
+### 0.2.1
+
+- bug fixes
+- [#10](https://github.com/dartclub/ical/pull/10) simpler source code
