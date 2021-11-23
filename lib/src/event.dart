@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names, annotate_overrides, overridden_fields
+
 import 'abstract.dart';
 import 'subcomponents.dart';
 import 'utils.dart' as utils;

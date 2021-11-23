@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:ical/serializer.dart';
 import 'package:ical/src/utils.dart';
 
@@ -69,7 +71,7 @@ class IRecurrenceRule {
   });
   String serialize() {
     var out = StringBuffer();
-    out..write('RRULE:FREQ=$frequency');
+    out.write('RRULE:FREQ=$frequency');
 
     if (untilDate != null) {
       out.write(';UNTIL=${utils.formatDateTime(untilDate!)}');
@@ -129,25 +131,24 @@ abstract class ICalendarElement extends AbstractSerializer {
   });
 
   String _foldLines(String value, {String preamble = "DESCRIPTION:"}) {
-    const CONTENT_LINES_MAX_OCTETS = 75;
-    const CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE = CONTENT_LINES_MAX_OCTETS - 1;
+    const _contentLinesMaxOctets = 75;
+    const _contentLinesMaxOctetsWithoutSpace = _contentLinesMaxOctets - 1;
 
     if (value.isEmpty) return '';
 
     final lines = [];
     var v = value;
 
-    final LINE_LENGTH_WITHOUT_PREAMBLE =
-        CONTENT_LINES_MAX_OCTETS - preamble.length;
+    final lineLengthWithoutPreamble = _contentLinesMaxOctets - preamble.length;
 
-    if (v.length > LINE_LENGTH_WITHOUT_PREAMBLE) {
-      lines.add(v.substring(0, LINE_LENGTH_WITHOUT_PREAMBLE));
-      v = v.substring(LINE_LENGTH_WITHOUT_PREAMBLE);
+    if (v.length > lineLengthWithoutPreamble) {
+      lines.add(v.substring(0, lineLengthWithoutPreamble));
+      v = v.substring(lineLengthWithoutPreamble);
     }
 
-    while (v.length > CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE) {
-      lines.add(v.substring(0, CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE));
-      v = v.substring(CONTENT_LINES_MAX_OCTETS_WITHOUT_SPACE);
+    while (v.length > _contentLinesMaxOctetsWithoutSpace) {
+      lines.add(v.substring(0, _contentLinesMaxOctetsWithoutSpace));
+      v = v.substring(_contentLinesMaxOctetsWithoutSpace);
     }
     if (v.isNotEmpty) lines.add(v);
 
@@ -156,6 +157,7 @@ abstract class ICalendarElement extends AbstractSerializer {
         : lines.join("$CRLF_LINE_DELIMITER\t");
   }
 
+  @override
   String serialize() {
     var out = StringBuffer();
 
@@ -174,7 +176,7 @@ abstract class ICalendarElement extends AbstractSerializer {
       out.writecrlf('SUMMARY:${escapeValue(summary!)}');
     }
     if (url != null) {
-      out.writecrlf('URL:${url}');
+      out.writecrlf('URL:$url');
     }
     if (classification != null) {
       out.writecrlf('CLASS:$classification');

@@ -27,3 +27,8 @@
 
 - bug fixes
 - [#10](https://github.com/dartclub/ical/pull/10) simpler source code
+
+### 0.2.2
+
+- cleaner, refactored source code 
+- bug fixes

@@ -1,4 +1,4 @@
-import 'package:ical/src/utils.dart';
+// ignore_for_file: constant_identifier_names, annotate_overrides, overridden_fields
 
 import 'abstract.dart';
 import 'subcomponents.dart';

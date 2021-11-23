@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:ical/src/utils.dart';
 
 import 'abstract.dart';
@@ -57,6 +59,9 @@ class IAlarm extends AbstractSerializer {
         out.writecrlf('SUMMARY:${escapeValue(summary!)}');
 
         // TODO ATTENDEE
+        break;
+      case IAlarmType.AUDIO:
+        // TODO: Handle this case.
         break;
     }
 

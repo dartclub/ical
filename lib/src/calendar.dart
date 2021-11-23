@@ -1,8 +1,10 @@
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 import 'abstract.dart';
 import 'utils.dart' as utils;
 
 class ICalendar extends AbstractSerializer {
-  List<ICalendarElement> _elements = <ICalendarElement>[];
+  final List<ICalendarElement> _elements = <ICalendarElement>[];
   String company;
   String product;
   String lang;
@@ -25,7 +27,7 @@ class ICalendar extends AbstractSerializer {
     var out = StringBuffer()
       ..writecrlf('BEGIN:VCALENDAR')
       ..writecrlf('VERSION:2.0')
-      ..writecrlf('PRODID://${company}//${product}//${lang}');
+      ..writecrlf('PRODID://$company//$product//${lang}');
 
     if (refreshInterval != null) {
       out.writecrlf(

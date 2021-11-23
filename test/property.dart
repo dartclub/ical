@@ -1,5 +1,4 @@
 import 'package:ical/src/abstract.dart';
-import 'package:ical/src/utils.dart';
 import 'package:test/test.dart';
 
 class ElementTest extends ICalendarElement {

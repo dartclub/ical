@@ -1,6 +1,5 @@
 import 'package:ical/serializer.dart';
 import 'package:ical/src/subcomponents.dart';
-import 'package:ical/src/utils.dart';
 import 'package:test/test.dart';
 
 main() {
