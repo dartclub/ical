@@ -1,4 +1,3 @@
-import 'package:ical/src/calendar.dart';
 import 'package:ical/src/parser.dart';
 import 'package:test/test.dart';
 
@@ -31,13 +30,16 @@ DTSTART;VALUE=DATE:20200907
 DTEND;VALUE=DATE:20200908""";
       final result = parser.parseText(testIcs);
       expect(result.length, 5);
-      expect(result.map((e) => e.key), ["CREATED", "DTSTAMP", "LAST-MODIFIED", "DTSTART", "DTEND"]);
+      expect(result.map((e) => e.key),
+          ["CREATED", "DTSTAMP", "LAST-MODIFIED", "DTSTART", "DTEND"]);
     });
 
     test('parse calendar', () {
       const foldedRow = """TEST:testtesttesttesttesttest
  testtest""";
-      final row = parser.parseText(foldedRow).firstWhere((element) => element.key == "TEST");
+      final row = parser
+          .parseText(foldedRow)
+          .firstWhere((element) => element.key == "TEST");
       expect(row?.value, "testtesttesttesttesttesttesttest");
     });
 

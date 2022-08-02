@@ -1,7 +1,6 @@
 import 'package:ical/serializer.dart';
 import 'package:ical/src/structure.dart';
 
-import 'abstract.dart';
 import 'utils.dart' as utils;
 
 class ICalendar implements AbstractSerializer, AbstractDeserializer {
@@ -45,8 +44,7 @@ class ICalendar implements AbstractSerializer, AbstractDeserializer {
 
   @override
   void deserialize(ICalStructure structure) {
-    _elements = structure
-        .children
+    _elements = structure.children
         .where((child) => child.type == "VEVENT")
         .map((event) => IEvent()..deserialize(event))
         .cast<ICalendarElement>()

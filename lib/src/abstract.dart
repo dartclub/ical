@@ -110,7 +110,8 @@ class IOrganizer {
   }
 }
 
-abstract class ICalendarElement implements AbstractSerializer, AbstractDeserializer {
+abstract class ICalendarElement
+    implements AbstractSerializer, AbstractDeserializer {
   IOrganizer organizer;
   String uid;
   String summary;
@@ -148,8 +149,9 @@ abstract class ICalendarElement implements AbstractSerializer, AbstractDeseriali
     if (summary != null) out.writeln('SUMMARY:${escapeValue(summary)}');
     if (url != null) out.writeln('URL:${url}');
     if (classification != null) out.writeln('CLASS:$classification');
-    if (description != null)
+    if (description != null) {
       out.writeln('DESCRIPTION:${escapeValue(description)}');
+    }
     if (rrule != null) out.write(rrule.serialize());
 
     return out.toString();
@@ -163,7 +165,8 @@ abstract class ICalendarElement implements AbstractSerializer, AbstractDeseriali
     summary = structure["SUMMARY"]?.value;
     url = structure["URL"]?.value;
     final classificationString = structure["CLASSIFICATION"]?.value;
-    if(classificationString != null) classification = IClass._(classificationString);
+    if (classificationString != null)
+      classification = IClass._(classificationString);
     // TODO support rrule
   }
 
