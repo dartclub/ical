@@ -9,10 +9,9 @@ environment:
   sdk: ">=2.0.0 <3.0.0"
 
 dependencies:
-  intl: ^0.16.0
-  nanoid: ^0.1.0
+  intl: ^0.17.0
+  nanoid: ^1.0.0
 
 dev_dependencies:
   test: ^1.5.1+1
   pedantic: ^1.8.0
-

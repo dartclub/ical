@@ -1,4 +1,3 @@
-import 'package:ical/src/calendar.dart';
 import 'package:ical/src/parser.dart';
 import 'package:ical/src/structure.dart';
 import 'package:test/test.dart';
