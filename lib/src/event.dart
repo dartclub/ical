@@ -7,7 +7,9 @@ import 'utils.dart' as utils;
 class IEvent extends ICalendarElement with EventToDo {
   IEventStatus status;
   DateTime start;
+  String? startTimeZone;
   DateTime? end;
+  String? endTimeZone;
   Duration? duration;
   ITimeTransparency? transparency = ITimeTransparency.OPAQUE;
 
@@ -23,7 +25,9 @@ class IEvent extends ICalendarElement with EventToDo {
     String? uid,
     this.status = IEventStatus.CONFIRMED,
     required this.start,
+    this.startTimeZone,
     this.end,
+    this.endTimeZone,
     this.duration,
     String? summary,
     String? description,
@@ -61,11 +65,13 @@ class IEvent extends ICalendarElement with EventToDo {
     if ((end == null && duration == null)) {
       out.writecrlf('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
     } else {
-      out.writecrlf('DTSTART:${utils.formatDateTime(start)}');
+      out.writecrlf(
+          'DTSTART${utils.injectTimeZone(start, startTimeZone)}:${utils.formatDateTime(start)}');
     }
 
     if (end != null) {
-      out.writecrlf('DTEND:${utils.formatDateTime(end!)}');
+      out.writecrlf(
+          'DTEND${utils.injectTimeZone(end!, endTimeZone)}:${utils.formatDateTime(end!)}');
     }
     if (duration != null) {
       out.writecrlf('DURATION:${utils.formatDuration(duration!)}');
