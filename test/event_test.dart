@@ -53,6 +53,17 @@ main() {
       print(e.serialize());
       print(e2.serialize());
     });
+
+    test("with time zone", () {
+      IEvent event = IEvent(
+        start: DateTime(2022, 2, 2, 10),
+        startTimeZone: "Europe/Berlin",
+        end: DateTime(2022, 2, 2, 19),
+        endTimeZone: "Europe/Berlin",
+      );
+      String result = event.serialize();
+      print(result);
+    });
     // TODO create tests
   });
 }
