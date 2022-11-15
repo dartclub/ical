@@ -46,12 +46,10 @@ main() {
     });
     test('t1', () {
       var s1 = t1.serialize();
-      print(s1);
       expect(s1.trimRight().split('\n').length, 1);
     });
     test('t2', () {
       var s2 = t2.serialize();
-      print(s2);
       var rows = s2.trimRight().split(CRLF_LINE_DELIMITER);
       expect(rows.length, 8);
       expect(rows[0], 'UID:very unique key');
