@@ -3,7 +3,7 @@ import 'package:ical/src/event.dart';
 import 'package:ical/src/subcomponents.dart';
 import 'package:ical/src/abstract.dart';
 
-main() {
+void main() {
   group('Event', () {
     late IEvent e, e2;
     setUp(() {
