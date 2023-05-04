@@ -30,5 +30,9 @@
 
 ### 0.2.2
 
-- cleaner, refactored source code 
+- cleaner, refactored source code
 - bug fixes
+
+### 0.3.0
+
+- upgrade dependency `intl` [#19](https://github.com/dartclub/ical/issues/19)
