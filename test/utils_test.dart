@@ -1,7 +1,7 @@
 import 'package:ical/src/utils.dart' as utils;
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('utils', () {
     test('formatDate', () {
       expect(utils.formatDate(DateTime(2000, 2, 1)), '20000201');

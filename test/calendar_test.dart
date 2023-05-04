@@ -1,7 +1,7 @@
 import 'package:ical/src/calendar.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('Calendar', () {
     late ICalendar iCalendar;
     setUp(() {

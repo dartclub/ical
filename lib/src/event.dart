@@ -86,7 +86,7 @@ class IEvent extends ICalendarElement with EventToDo {
 class IEventStatus {
   final String _label;
   @override
-  toString() => _label;
+  String toString() => _label;
 
   const IEventStatus._(this._label);
   static const TENTATIVE = IEventStatus._('TENTATIVE');
@@ -97,7 +97,7 @@ class IEventStatus {
 class ITimeTransparency {
   final String _label;
   @override
-  toString() => _label;
+  String toString() => _label;
   const ITimeTransparency._(this._label);
   static const OPAQUE = ITimeTransparency._('OPAQUE');
   static const TRANSPARENT = ITimeTransparency._('TRANSPARENT');

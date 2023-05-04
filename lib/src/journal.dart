@@ -6,7 +6,7 @@ import 'utils.dart' as utils;
 class IJournalStatus {
   final String _label;
   @override
-  toString() => _label;
+  String toString() => _label;
   const IJournalStatus._(this._label);
 
   static const DRAFT = IJournalStatus._('DRAFT');

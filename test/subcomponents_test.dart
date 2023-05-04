@@ -1,8 +1,7 @@
 import 'package:ical/serializer.dart';
-import 'package:ical/src/subcomponents.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('Alarm', () {
     group('Alarm.display', () {
       late IAlarm disp;

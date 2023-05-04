@@ -7,7 +7,7 @@ import 'utils.dart' as utils;
 class ITodoStatus {
   final String _label;
   @override
-  toString() => _label;
+  String toString() => _label;
 
   const ITodoStatus._(this._label);
   static const NEEDS_ACTION = ITodoStatus._('NEEDS_ACTION');
