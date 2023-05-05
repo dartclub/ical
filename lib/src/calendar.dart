@@ -19,8 +19,8 @@ class ICalendar extends AbstractSerializer {
     this.refreshInterval,
   });
 
-  addAll(List<ICalendarElement> elements) => _elements.addAll(elements);
-  addElement(ICalendarElement element) => _elements.add(element);
+  void addAll(List<ICalendarElement> elements) => _elements.addAll(elements);
+  void addElement(ICalendarElement element) => _elements.add(element);
 
   @override
   String serialize() {

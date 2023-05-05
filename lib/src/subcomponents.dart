@@ -8,7 +8,7 @@ import 'utils.dart' as utils;
 class IAlarmType {
   final String _label;
   @override
-  toString() => _label;
+  String toString() => _label;
 
   const IAlarmType._(this._label);
   static const DISPLAY = IAlarmType._('DISPLAY');

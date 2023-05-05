@@ -1,11 +1,11 @@
 import 'package:intl/intl.dart';
 
-formatDateTime(DateTime dt) => dt.isUtc
+String formatDateTime(DateTime dt) => dt.isUtc
     ? DateFormat("yyyyMMdd'T'HHmmss'Z'").format(dt)
     : DateFormat("yyyyMMdd'T'HHmmss").format(dt);
-formatDate(DateTime dt) => DateFormat("yyyyMMdd").format(dt);
-formatDuration(Duration d) {
-  String out = (d.isNegative ? '-' : '+') + 'P';
+String formatDate(DateTime dt) => DateFormat("yyyyMMdd").format(dt);
+String formatDuration(Duration d) {
+  String out = '${d.isNegative ? '-' : '+'}P';
   int hours = (d.inHours - (d.inDays * 24)).abs();
   int minutes = (d.inMinutes - (d.inHours * 60)).abs();
   int seconds = (d.inSeconds - (d.inMinutes * 60)).abs();

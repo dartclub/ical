@@ -14,7 +14,7 @@ abstract class AbstractSerializer {
 class IClass {
   final String _label;
   @override
-  toString() => _label;
+  String toString() => _label;
   const IClass._(this._label);
   static const PUBLIC = IClass._('PUBLIC');
   static const PRIVATE = IClass._('PRIVATE');
@@ -24,7 +24,7 @@ class IClass {
 class IRecurrenceFrequency {
   final String _label;
   @override
-  toString() => _label;
+  String toString() => _label;
   const IRecurrenceFrequency._(this._label);
   static const SECONDLY = IRecurrenceFrequency._('SECONDLY');
   static const MINUTELY = IRecurrenceFrequency._('MINUTELY');
@@ -131,24 +131,24 @@ abstract class ICalendarElement extends AbstractSerializer {
   });
 
   String _foldLines(String value, {String preamble = "DESCRIPTION:"}) {
-    const _contentLinesMaxOctets = 75;
-    const _contentLinesMaxOctetsWithoutSpace = _contentLinesMaxOctets - 1;
+    const contentLinesMaxOctets = 75;
+    const contentLinesMaxOctetsWithoutSpace = contentLinesMaxOctets - 1;
 
     if (value.isEmpty) return '';
 
     final lines = [];
     var v = value;
 
-    final lineLengthWithoutPreamble = _contentLinesMaxOctets - preamble.length;
+    final lineLengthWithoutPreamble = contentLinesMaxOctets - preamble.length;
 
     if (v.length > lineLengthWithoutPreamble) {
       lines.add(v.substring(0, lineLengthWithoutPreamble));
       v = v.substring(lineLengthWithoutPreamble);
     }
 
-    while (v.length > _contentLinesMaxOctetsWithoutSpace) {
-      lines.add(v.substring(0, _contentLinesMaxOctetsWithoutSpace));
-      v = v.substring(_contentLinesMaxOctetsWithoutSpace);
+    while (v.length > contentLinesMaxOctetsWithoutSpace) {
+      lines.add(v.substring(0, contentLinesMaxOctetsWithoutSpace));
+      v = v.substring(contentLinesMaxOctetsWithoutSpace);
     }
     if (v.isNotEmpty) lines.add(v);
 
@@ -226,5 +226,5 @@ mixin EventToDo {
 const CRLF_LINE_DELIMITER = "\r\n";
 
 extension StringBufferWithWriteCrLf on StringBuffer {
-  writecrlf(Object? object) => write('$object$CRLF_LINE_DELIMITER');
+  void writecrlf(Object? object) => write('$object$CRLF_LINE_DELIMITER');
 }

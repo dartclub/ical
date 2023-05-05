@@ -25,7 +25,7 @@ class ElementTest extends ICalendarElement {
         );
 }
 
-main() {
+void main() {
   late ElementTest t1, t2;
   group('test ElementTest', () {
     setUp(() {
