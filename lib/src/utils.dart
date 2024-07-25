@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 String formatDateTime(DateTime dt) => dt.isUtc
     ? DateFormat("yyyyMMdd'T'HHmmss'Z'").format(dt)
     : DateFormat("yyyyMMdd'T'HHmmss").format(dt);
-String formatDate(DateTime dt) => DateFormat("yyyyMMdd").format(dt);
+String formatDate(DateTime dt) => DateFormat('yyyyMMdd').format(dt);
 String formatDuration(Duration d) {
   String out = '${d.isNegative ? '-' : '+'}P';
   int hours = (d.inHours - (d.inDays * 24)).abs();

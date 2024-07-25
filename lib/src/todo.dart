@@ -1,19 +1,24 @@
 // ignore_for_file: constant_identifier_names, annotate_overrides, overridden_fields
 
+import 'package:meta/meta.dart';
+
 import 'abstract.dart';
 import 'subcomponents.dart';
 import 'utils.dart' as utils;
 
-class ITodoStatus {
-  final String _label;
-  @override
-  String toString() => _label;
-
-  const ITodoStatus._(this._label);
+@immutable
+final class ITodoStatus {
   static const NEEDS_ACTION = ITodoStatus._('NEEDS_ACTION');
   static const COMPLETED = ITodoStatus._('COMPLETED');
   static const IN_PROCESS = ITodoStatus._('IN_PROCESS');
   static const CANCELLED = ITodoStatus._('CANCELLED');
+
+  final String _label;
+
+  const ITodoStatus._(this._label);
+
+  @override
+  String toString() => _label;
 }
 
 class ITodo extends ICalendarElement with EventToDo {
@@ -39,8 +44,8 @@ class ITodo extends ICalendarElement with EventToDo {
   int get complete => _complete;
 
   ITodo({
-    IOrganizer? organizer,
-    String? uid,
+    super.organizer,
+    super.uid,
     this.status = ITodoStatus.NEEDS_ACTION,
     this.start,
     this.due,
@@ -52,24 +57,14 @@ class ITodo extends ICalendarElement with EventToDo {
     this.alarm,
     int percentComplete = 0,
     this.priority = 0,
-    String? summary,
-    String? description,
-    List<String>? categories,
-    String? url,
-    IClass classification = IClass.PRIVATE,
-    String? comment,
-    IRecurrenceRule? rrule,
-  }) : super(
-          organizer: organizer,
-          uid: uid,
-          summary: summary,
-          description: description,
-          categories: categories,
-          url: url,
-          classification: classification,
-          comment: comment,
-          rrule: rrule,
-        ) {
+    super.summary,
+    super.description,
+    super.categories,
+    super.url,
+    IClass super.classification,
+    super.comment,
+    super.rrule,
+  }) {
     complete = percentComplete;
   }
 
