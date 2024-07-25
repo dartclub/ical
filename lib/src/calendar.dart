@@ -34,9 +34,7 @@ class ICalendar extends AbstractSerializer {
           'REFRESH-INTERVAL;VALUE=DURATION:${utils.formatDuration(refreshInterval!)}');
     }
 
-    for (ICalendarElement element in _elements) {
-      out.write(element.serialize());
-    }
+    out.writeAll(_elements.map((element) => element.serialize()));
 
     out.writecrlf('END:VCALENDAR');
     return out.toString();

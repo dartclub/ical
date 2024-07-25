@@ -3,26 +3,16 @@ import 'package:test/test.dart';
 
 class ElementTest extends ICalendarElement {
   ElementTest({
-    IOrganizer? organizer,
-    String? uid,
-    String? summary,
-    String? description,
-    List<String>? categories,
-    String? url,
-    IClass? classification,
-    String? comment,
-    IRecurrenceRule? rrule,
-  }) : super(
-          organizer: organizer,
-          uid: uid,
-          summary: summary,
-          description: description,
-          categories: categories,
-          url: url,
-          classification: classification,
-          comment: comment,
-          rrule: rrule,
-        );
+    super.organizer,
+    super.uid,
+    super.summary,
+    super.description,
+    super.categories,
+    super.url,
+    super.classification = null,
+    super.comment,
+    super.rrule,
+  });
 }
 
 void main() {

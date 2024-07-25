@@ -2,14 +2,14 @@ name: ical
 version: 0.3.0
 description: >-
   A library to generate/serialize iCalendar files
-homepage: https://github.com/dartclub/ical
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
-  intl: ^0.18.1
+  meta: ^1.12.0
+  intl: ^0.19.0
   nanoid: ^1.0.0
 
 dev_dependencies:
-  dartclub_lint: ^1.0.0
-  test: ^1.19.3
+  lints: ^4.0.0
+  test: any

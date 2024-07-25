@@ -1,1 +1,61 @@
-include: package:dartclub_lint/dart.yaml
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+#
+# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
+# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
+# invoked from the command line by running `flutter analyze`.
+
+include: package:lints/recommended.yaml
+
+linter:
+  # The lint rules applied to this project can be customized in the
+  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
+  # included above or to enable additional rules. A list of all available lints
+  # and their documentation is published at
+  # https://dart-lang.github.io/linter/lints/index.html.
+  #
+  # Instead of disabling a lint rule for the entire project in the
+  # section below, it can also be suppressed for a single line of code
+  # or a specific dart file by using the `// ignore: name_of_lint` and
+  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
+  # producing the lint.
+  rules:
+    avoid_print: false  # Uncomment to disable the `avoid_print` rule
+    prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    no_leading_underscores_for_local_identifiers: false  # Protobuffer autogen files do this
+    constant_identifier_names: false  # Protobuffer autogen files do this
+    implementation_imports: false # Protobuffer autogen files do this 
+    unnecessary_string_escapes: false # oss_licenses uses this
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
+    number-of-parameters: 4
+    maximum-nesting-level: 5
+  rules:
+    - avoid-redundant-async
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
+    - avoid-unrelated-type-assertions
+    - no-boolean-literal-compare
+    - prefer-conditional-expressions
+    - no-equal-then-else
+    - prefer-moving-to-variable
+    - avoid-collapsible-if
+    - avoid-incomplete-copy-with
+    - avoid-self-compare
+    - avoid-self-assignment
+    - avoid-unnecessary-nullable-return-type
+    - avoid-unrelated-type-casts
+    #- avoid-unused-parameters
+    #- avoid-nested-conditional-expressions
+    #- prefer-trailing-comma
+
+
+
+analyzer:
+  errors:
+    avoid_function_literals_in_foreach_calls: ignore
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
