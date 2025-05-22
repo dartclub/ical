@@ -1,19 +1,23 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:ical/src/utils.dart';
+import 'package:meta/meta.dart';
 
 import 'abstract.dart';
 import 'utils.dart' as utils;
 
-class IAlarmType {
-  final String _label;
-  @override
-  String toString() => _label;
-
-  const IAlarmType._(this._label);
+@immutable
+final class IAlarmType {
   static const DISPLAY = IAlarmType._('DISPLAY');
   static const AUDIO = IAlarmType._('AUDIO');
   static const EMAIL = IAlarmType._('EMAIL');
+
+  final String _label;
+
+  const IAlarmType._(this._label);
+
+  @override
+  String toString() => _label;
 }
 
 class IAlarm extends AbstractSerializer {

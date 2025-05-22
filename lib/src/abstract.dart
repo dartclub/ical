@@ -2,6 +2,7 @@
 
 import 'package:ical/serializer.dart';
 import 'package:ical/src/utils.dart';
+import 'package:meta/meta.dart';
 
 import 'utils.dart' as utils;
 import 'subcomponents.dart';
@@ -11,21 +12,23 @@ abstract class AbstractSerializer {
   String serialize();
 }
 
-class IClass {
-  final String _label;
-  @override
-  String toString() => _label;
-  const IClass._(this._label);
+@immutable
+final class IClass {
   static const PUBLIC = IClass._('PUBLIC');
   static const PRIVATE = IClass._('PRIVATE');
   static const CONFIDENTIAL = IClass._('CONFIDENTIAL');
-}
 
-class IRecurrenceFrequency {
   final String _label;
+
+  const IClass._(this._label);
+
   @override
   String toString() => _label;
-  const IRecurrenceFrequency._(this._label);
+}
+
+
+@immutable
+final class IRecurrenceFrequency {
   static const SECONDLY = IRecurrenceFrequency._('SECONDLY');
   static const MINUTELY = IRecurrenceFrequency._('MINUTELY');
   static const HOURLY = IRecurrenceFrequency._('HOURLY');
@@ -43,6 +46,13 @@ class IRecurrenceFrequency {
   static const BYMONTH = IRecurrenceFrequency._('BYMONTH');
   static const BYSETPOS = IRecurrenceFrequency._('BYSETPOS');
   static const WKST = IRecurrenceFrequency._('WKST');
+
+  const IRecurrenceFrequency._(this._label);
+
+  final String _label;
+
+  @override
+  String toString() => _label;
 }
 
 class IRecurrenceRule {
@@ -54,14 +64,15 @@ class IRecurrenceRule {
   // TODO BYSECOND, BYMINUTE, BYHOUR, BYDAY,BYMONTHDAY,BYYEARDAY,BYWEEKNO,BYMONTH,BYSETPOS,WKST
 
   static List<String> weekdays = <String>[
-    "SU",
-    "MO",
-    "TU",
-    "WE",
-    "TH",
-    "FR",
-    "SA"
+    'SU',
+    'MO',
+    'TU',
+    'WE',
+    'TH',
+    'FR',
+    'SA'
   ];
+
   IRecurrenceRule({
     required this.frequency,
     this.untilDate,
@@ -69,6 +80,7 @@ class IRecurrenceRule {
     this.interval = 0,
     this.weekday = 0,
   });
+
   String serialize() {
     var out = StringBuffer();
     out.write('RRULE:FREQ=$frequency');
@@ -93,7 +105,9 @@ class IRecurrenceRule {
 class IOrganizer {
   String? name;
   String? email;
+
   IOrganizer({this.name, this.email});
+
   String serializeOrganizer() {
     var out = StringBuffer()..write('ORGANIZER');
     if (name != null) {
@@ -130,7 +144,7 @@ abstract class ICalendarElement extends AbstractSerializer {
     this.rrule,
   });
 
-  String _foldLines(String value, {String preamble = "DESCRIPTION:"}) {
+  String _foldLines(String value, {String preamble = 'DESCRIPTION:'}) {
     const contentLinesMaxOctets = 75;
     const contentLinesMaxOctetsWithoutSpace = contentLinesMaxOctets - 1;
 
@@ -154,7 +168,7 @@ abstract class ICalendarElement extends AbstractSerializer {
 
     return lines.length == 1
         ? lines.first
-        : lines.join("$CRLF_LINE_DELIMITER\t");
+        : lines.join('$CRLF_LINE_DELIMITER\t');
   }
 
   @override
@@ -223,7 +237,7 @@ mixin EventToDo {
   }
 }
 
-const CRLF_LINE_DELIMITER = "\r\n";
+const CRLF_LINE_DELIMITER = '\r\n';
 
 extension StringBufferWithWriteCrLf on StringBuffer {
   void writecrlf(Object? object) => write('$object$CRLF_LINE_DELIMITER');

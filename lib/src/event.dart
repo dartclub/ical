@@ -19,19 +19,19 @@ class IEvent extends ICalendarElement with EventToDo {
   int? priority;
 
   IEvent({
-    IOrganizer? organizer,
-    String? uid,
+    super.organizer,
+    super.uid,
     this.status = IEventStatus.CONFIRMED,
     required this.start,
     this.end,
     this.duration,
-    String? summary,
-    String? description,
-    List<String>? categories,
-    String? url,
-    IClass classification = IClass.PRIVATE,
-    String? comment,
-    IRecurrenceRule? rrule,
+    super.summary,
+    super.description,
+    super.categories,
+    super.url,
+    IClass super.classification,
+    super.comment,
+    super.rrule,
     this.transparency,
     this.location,
     this.lat,
@@ -39,17 +39,7 @@ class IEvent extends ICalendarElement with EventToDo {
     this.resources,
     this.alarm,
     this.priority = 0,
-  }) : super(
-          organizer: organizer,
-          uid: uid,
-          summary: summary,
-          description: description,
-          categories: categories,
-          url: url,
-          classification: classification,
-          comment: comment,
-          rrule: rrule,
-        );
+  });
 
   @override
   String serialize() {
@@ -84,21 +74,25 @@ class IEvent extends ICalendarElement with EventToDo {
 }
 
 class IEventStatus {
-  final String _label;
-  @override
-  String toString() => _label;
-
-  const IEventStatus._(this._label);
   static const TENTATIVE = IEventStatus._('TENTATIVE');
   static const CONFIRMED = IEventStatus._('CONFIRMED');
   static const CANCELLED = IEventStatus._('CANCELLED');
+
+  final String _label;
+
+  const IEventStatus._(this._label);
+
+  @override
+  String toString() => _label;
 }
 
 class ITimeTransparency {
-  final String _label;
-  @override
-  String toString() => _label;
-  const ITimeTransparency._(this._label);
   static const OPAQUE = ITimeTransparency._('OPAQUE');
   static const TRANSPARENT = ITimeTransparency._('TRANSPARENT');
+
+  final String _label;
+  const ITimeTransparency._(this._label);
+
+  @override
+  String toString() => _label;
 }
