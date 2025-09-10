@@ -9,7 +9,7 @@ void main() {
         company: 'Umbrella Inc.',
         lang: 'EN',
         product: 'Zombies',
-        refreshInterval: Duration(minutes: 30),
+        refreshInterval: const Duration(minutes: 30),
       );
     });
     test('serialize', () {

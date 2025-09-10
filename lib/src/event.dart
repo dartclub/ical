@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names, annotate_overrides, overridden_fields
 
-import 'abstract.dart';
-import 'subcomponents.dart';
-import 'utils.dart' as utils;
+import 'package:ical/src/abstract.dart';
+import 'package:ical/src/subcomponents.dart';
+import 'package:ical/src/utils.dart' as utils;
 
 class IEvent extends ICalendarElement with EventToDo {
   IEventStatus status;
@@ -54,11 +54,11 @@ class IEvent extends ICalendarElement with EventToDo {
   @override
   String serialize() {
     super.serialize();
-    var out = StringBuffer()
+    final out = StringBuffer()
       ..writecrlf('BEGIN:VEVENT')
       ..writecrlf('DTSTAMP:${utils.formatDateTime(start)}');
 
-    if ((end == null && duration == null)) {
+    if (end == null && duration == null) {
       out.writecrlf('DTSTART;VALUE=DATE:${utils.formatDate(start)}');
     } else {
       out.writecrlf('DTSTART:${utils.formatDateTime(start)}');

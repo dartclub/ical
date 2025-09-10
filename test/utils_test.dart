@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('utils', () {
     test('formatDate', () {
-      expect(utils.formatDate(DateTime(2000, 2, 1)), '20000201');
+      expect(utils.formatDate(DateTime(2000, 2)), '20000201');
       expect(utils.formatDate(DateTime(1948, 12, 30)), '19481230');
     });
     test('formatDateTime', () {
@@ -16,11 +16,11 @@ void main() {
     test('formatDuration', () {
       expect(
           utils.formatDuration(
-              Duration(days: 30, hours: 20, minutes: 10, seconds: 59)),
+              const Duration(days: 30, hours: 20, minutes: 10, seconds: 59)),
           '+P30DT20H10M59S');
       expect(
           utils.formatDuration(
-              Duration(days: 30, hours: 0, minutes: 10, seconds: 0)),
+              const Duration(days: 30, minutes: 10)),
           '+P30DT0H10M0S');
     });
   });

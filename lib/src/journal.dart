@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
-import 'abstract.dart';
-import 'utils.dart' as utils;
+import 'package:ical/src/abstract.dart';
+import 'package:ical/src/utils.dart' as utils;
 
 class IJournalStatus {
   final String _label;
@@ -43,7 +43,7 @@ class IJournal extends ICalendarElement {
 
   @override
   String serialize() {
-    var out = StringBuffer()
+    final out = StringBuffer()
       ..writecrlf('BEGIN:VJOURNAL')
       ..writecrlf('DTSTAMP:${utils.formatDateTime(start)}')
       ..writecrlf('DTSTART;VALUE=DATE:${utils.formatDate(start)}')

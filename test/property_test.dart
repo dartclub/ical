@@ -26,7 +26,8 @@ class ElementTest extends ICalendarElement {
 }
 
 void main() {
-  late ElementTest t1, t2;
+  late ElementTest t1;
+  late ElementTest t2;
   group('test ElementTest', () {
     setUp(() {
       t1 = ElementTest();
@@ -45,12 +46,12 @@ void main() {
           url: 'https://github.com/lukas-h');
     });
     test('t1', () {
-      var s1 = t1.serialize();
+      final s1 = t1.serialize();
       expect(s1.trimRight().split('\n').length, 1);
     });
     test('t2', () {
-      var s2 = t2.serialize();
-      var rows = s2.trimRight().split(CRLF_LINE_DELIMITER);
+      final s2 = t2.serialize();
+      final rows = s2.trimRight().split(CRLF_LINE_DELIMITER);
       expect(rows.length, 8);
       expect(rows[0], 'UID:very unique key');
       expect(rows[1], 'CATEGORIES:1,2,3');

@@ -1,9 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:ical/src/abstract.dart';
+import 'package:ical/src/utils.dart' as utils;
 import 'package:ical/src/utils.dart';
-
-import 'abstract.dart';
-import 'utils.dart' as utils;
 
 class IAlarmType {
   final String _label;
@@ -21,7 +20,8 @@ class IAlarm extends AbstractSerializer {
   Duration duration;
   int repeat;
   DateTime? trigger;
-  String? description, summary;
+  String? description;
+  String? summary;
 
   IAlarm.display({
     this.duration = const Duration(minutes: 15),
@@ -47,7 +47,7 @@ class IAlarm extends AbstractSerializer {
 
   @override
   String serialize() {
-    var out = StringBuffer()
+    final out = StringBuffer()
       ..writecrlf('BEGIN:VALARM')
       ..writecrlf('ACTION:$type');
     switch (type) {

@@ -7,17 +7,17 @@ void main() {
       late IAlarm disp;
       setUp(() {
         disp = IAlarm.display(
-          duration: Duration(minutes: 23),
+          duration: const Duration(minutes: 23),
           description: 'Test',
           repeat: 3,
-          trigger: DateTime.now().add(Duration(hours: 3)),
+          trigger: DateTime.now().add(const Duration(hours: 3)),
         );
       });
       test('duration', () {
-        expect(disp.duration, Duration(minutes: 23));
+        expect(disp.duration, const Duration(minutes: 23));
       });
       test('serialize', () {
-        List<String> out = disp.serialize().trim().split(CRLF_LINE_DELIMITER);
+        final List<String> out = disp.serialize().trim().split(CRLF_LINE_DELIMITER);
         print(out.join('\n'));
         expect(out[0], 'BEGIN:VALARM');
         expect(out[out.length - 1], 'END:VALARM');
