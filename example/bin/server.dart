@@ -35,12 +35,12 @@ Future<void> main() async {
     ),
   );
 
-  await HttpServer.bind(InternetAddress.loopbackIPv4, 8080)
-    ..listen((HttpRequest request) {
-      request.response
-        ..headers.contentType = ContentType('text', 'calendar')
-        ..write(cal.serialize())
-        ..close();
-    });
+  final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
+  server.listen((HttpRequest request) {
+    request.response
+      ..headers.contentType = ContentType('text', 'calendar')
+      ..write(cal.serialize())
+      ..close();
+  });
   print('server running http://localhost:8080');
 }
