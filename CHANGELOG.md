@@ -36,3 +36,7 @@
 ### 0.3.0
 
 - upgrade dependency `intl` [#19](https://github.com/dartclub/ical/issues/19)
+
+### 0.4.0
+
+- upgrade dependency `intl` to ^0.20.2

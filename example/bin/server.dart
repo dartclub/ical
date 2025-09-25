@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:ical/serializer.dart';
 
-main() async {
-  ICalendar cal = ICalendar();
+Future<void> main() async {
+  final ICalendar cal = ICalendar();
   cal.addElement(
     IEvent(
       uid: 'test@example.com',
@@ -20,7 +20,7 @@ main() async {
   cal.addElement(
     IEvent(
       alarm: IAlarm.audio(
-        duration: Duration(minutes: 3),
+        duration: const Duration(minutes: 3),
         repeat: 1,
         trigger: DateTime(2019, 4, 2, 11),
       ),
@@ -35,12 +35,12 @@ main() async {
     ),
   );
 
-  await HttpServer.bind(InternetAddress.loopbackIPv4, 8080)
-    ..listen((HttpRequest request) {
-      request.response
-        ..headers.contentType = ContentType('text', 'calendar')
-        ..write(cal.serialize())
-        ..close();
-    });
+  final server = await HttpServer.bind(InternetAddress.loopbackIPv4, 8080);
+  server.listen((HttpRequest request) {
+    request.response
+      ..headers.contentType = ContentType('text', 'calendar')
+      ..write(cal.serialize())
+      ..close();
+  });
   print('server running http://localhost:8080');
 }

@@ -1,8 +1,8 @@
 // ignore_for_file: constant_identifier_names, annotate_overrides, overridden_fields
 
-import 'abstract.dart';
-import 'subcomponents.dart';
-import 'utils.dart' as utils;
+import 'package:ical/src/abstract.dart';
+import 'package:ical/src/subcomponents.dart';
+import 'package:ical/src/utils.dart' as utils;
 
 class ITodoStatus {
   final String _label;
@@ -75,7 +75,7 @@ class ITodo extends ICalendarElement with EventToDo {
 
   @override
   String serialize() {
-    var out = StringBuffer()
+    final out = StringBuffer()
       ..writecrlf('BEGIN:VTODO')
       ..writecrlf('DTSTAMP:${utils.formatDateTime(start ?? DateTime.now())}')
       ..writecrlf('DTSTART;VALUE=DATE:${utils.formatDate(start!)}')

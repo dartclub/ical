@@ -1,7 +1,7 @@
-import 'package:test/test.dart';
+import 'package:ical/src/abstract.dart';
 import 'package:ical/src/event.dart';
 import 'package:ical/src/subcomponents.dart';
-import 'package:ical/src/abstract.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Event', () {
@@ -11,12 +11,12 @@ void main() {
         uid: 'lukas@himsel.me',
         alarm: IAlarm.display(
           description: 'Test',
-          duration: Duration(minutes: 15),
+          duration: const Duration(minutes: 15),
           repeat: 5,
-          trigger: DateTime.now().add(Duration(hours: 3)),
+          trigger: DateTime.now().add(const Duration(hours: 3)),
         ),
         start: DateTime.now(),
-        end: DateTime.now().add(Duration(hours: 3)),
+        end: DateTime.now().add(const Duration(hours: 3)),
         description: 'Test test test',
         lat: 49.3,
         lng: 13,
@@ -27,15 +27,14 @@ void main() {
       );
       e2 = IEvent(
         alarm: IAlarm.audio(
-          duration: Duration(minutes: 15),
           repeat: 4,
-          trigger: DateTime.now().add(Duration(minutes: 3)),
+          trigger: DateTime.now().add(const Duration(minutes: 3)),
         ),
         comment: 'unit test',
         classification: IClass.PUBLIC,
         location: 'Am Wollhaus 1, 74072 Heilbronn',
         start: DateTime.now(),
-        end: DateTime.now().add(Duration(days: 3)),
+        end: DateTime.now().add(const Duration(days: 3)),
         organizer: IOrganizer(name: 'Lukas Himsel', email: 'test@example.com'),
         uid: 'lukas@himsel.me',
         resources: <String>['foo', 'bar', 'baz'],

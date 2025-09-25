@@ -3,8 +3,7 @@
 import 'package:ical/serializer.dart';
 import 'package:ical/src/utils.dart';
 
-import 'utils.dart' as utils;
-import 'subcomponents.dart';
+import 'package:ical/src/utils.dart' as utils;
 import 'package:nanoid/nanoid.dart';
 
 abstract class AbstractSerializer {
@@ -70,7 +69,7 @@ class IRecurrenceRule {
     this.weekday = 0,
   });
   String serialize() {
-    var out = StringBuffer();
+    final out = StringBuffer();
     out.write('RRULE:FREQ=$frequency');
 
     if (untilDate != null) {
@@ -95,7 +94,7 @@ class IOrganizer {
   String? email;
   IOrganizer({this.name, this.email});
   String serializeOrganizer() {
-    var out = StringBuffer()..write('ORGANIZER');
+    final out = StringBuffer()..write('ORGANIZER');
     if (name != null) {
       out.write(';CN=${escapeValue(name!)}');
     }
@@ -136,7 +135,7 @@ abstract class ICalendarElement extends AbstractSerializer {
 
     if (value.isEmpty) return '';
 
-    final lines = [];
+    final List<String> lines = [];
     var v = value;
 
     final lineLengthWithoutPreamble = contentLinesMaxOctets - preamble.length;
@@ -159,7 +158,7 @@ abstract class ICalendarElement extends AbstractSerializer {
 
   @override
   String serialize() {
-    var out = StringBuffer();
+    final out = StringBuffer();
 
     uid ??= nanoid(32);
 
@@ -203,7 +202,7 @@ mixin EventToDo {
   IAlarm? alarm;
 
   String serializeEventToDo() {
-    var out = StringBuffer();
+    final out = StringBuffer();
     if (location != null) {
       out.writecrlf('LOCATION:${escapeValue(location!)}');
     }

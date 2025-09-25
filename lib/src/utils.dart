@@ -6,9 +6,9 @@ String formatDateTime(DateTime dt) => dt.isUtc
 String formatDate(DateTime dt) => DateFormat("yyyyMMdd").format(dt);
 String formatDuration(Duration d) {
   String out = '${d.isNegative ? '-' : '+'}P';
-  int hours = (d.inHours - (d.inDays * 24)).abs();
-  int minutes = (d.inMinutes - (d.inHours * 60)).abs();
-  int seconds = (d.inSeconds - (d.inMinutes * 60)).abs();
+  final int hours = (d.inHours - (d.inDays * 24)).abs();
+  final int minutes = (d.inMinutes - (d.inHours * 60)).abs();
+  final int seconds = (d.inSeconds - (d.inMinutes * 60)).abs();
 
   if (d.inDays > 0) {
     out += '${d.inDays}D';
